@@ -1,0 +1,7 @@
+program teste; {programa exemplo}
+var    abDSAc
+valor1: integer;
+valor_2: real;
+begin
+valor1 := 10;
+end.
