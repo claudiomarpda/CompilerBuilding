@@ -1,5 +1,5 @@
 program teste; {programa exemplo}
-var    abDSAc
+var
 valor1: integer;
 valor_2: real;
 begin

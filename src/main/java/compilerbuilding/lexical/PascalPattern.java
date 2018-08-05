@@ -11,7 +11,7 @@ public class PascalPattern {
             "begin", "end", "if", "then", "else", "while", "do", "not");
 
     public static final List<String> DELIMITERS = Arrays.asList(",", ";", ".", ":", "(", ")");
-    public static final List<String> RELATIONAL_OPERATORS = Arrays.asList(",", ";", ".", ":", "(", ")");
+    public static final List<String> RELATIONAL_OPERATORS = Arrays.asList("=", "<", ">", "<=", ">=", "<>");
     public static final List<String> ADDITIVE_OPERATORS = Arrays.asList("+", "-", "or");
     public static final List<String> MULTIPLICATIVE_OPERATORS = Arrays.asList("*", "/", "and");
     public static final String ATTRIBUTION_COMMAND = ":=";

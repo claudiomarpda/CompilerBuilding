@@ -5,11 +5,11 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static compilerbuilding.lexical.PascalPattern.*;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class PascalPatternTest {
 
@@ -42,6 +42,58 @@ public class PascalPatternTest {
         assertFalse(patternsUnion.matcher("1abc21").matches());
         assertFalse(patternsUnion.matcher("121_").matches());
         assertFalse(patternsUnion.matcher("_121").matches());
+        assertFalse(patternsUnion.matcher("identifier:").matches());
+        assertFalse(patternsUnion.matcher("identifier;").matches());
+        assertFalse(patternsUnion.matcher(":identifier").matches());
+        assertFalse(patternsUnion.matcher(";identifier").matches());
+        assertFalse(patternsUnion.matcher("identifier;;").matches());
+        assertFalse(patternsUnion.matcher("identifier;.,").matches());
+        assertFalse(patternsUnion.matcher("identi!fier").matches());
+        assertFalse(patternsUnion.matcher("id.entifier").matches());
+    }
+
+    @Test
+    public void shouldReadPatternAndStopAtUnknown() {
+        String s = "identifier#";
+        Matcher matcher = PATTERNS_UNION.matcher(s);
+        assertFalse(matcher.matches());
+
+        if (matcher.find()) {
+            assertEquals("identifier", s.substring(0, matcher.start()));
+        }
+    }
+
+    @Test
+    public void shouldReadPatternAndStopAtComma() {
+        String s = "identifier;";
+        Matcher matcher = PATTERNS_UNION.matcher(s);
+        assertFalse(matcher.matches());
+
+        String firstCharacterOutOfPattern;
+        String stringAsPattern;
+        if (matcher.find()) {
+            firstCharacterOutOfPattern = matcher.group();
+            stringAsPattern = s.substring(0, matcher.start());
+            assertEquals(";", firstCharacterOutOfPattern);
+            assertEquals("identifier", stringAsPattern);
+        }
+    }
+
+    @Test
+    public void testWithPrintsOnScreen() {
+        String v = "identifier#;";
+        Matcher matcher;
+        int i = 0;
+        do {
+            matcher = PATTERNS_UNION.matcher(v);
+            System.out.println(v + " - " + v.length() + " - " + matcher.matches());
+            matcher.find();
+            System.out.println("found: " + matcher.group());
+            System.out.println("token1: " + v.substring(0, matcher.end() - 1));
+            v = v.substring(matcher.end());
+
+            System.out.println();
+        } while (i < v.length());
     }
 
     @Test
