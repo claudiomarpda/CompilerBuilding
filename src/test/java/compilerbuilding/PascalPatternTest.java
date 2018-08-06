@@ -50,33 +50,34 @@ public class PascalPatternTest {
         assertFalse(patternsUnion.matcher("identifier;.,").matches());
         assertFalse(patternsUnion.matcher("identi!fier").matches());
         assertFalse(patternsUnion.matcher("id.entifier").matches());
+
     }
 
     @Test
-    public void shouldReadPatternAndStopAtUnknown() {
-        String s = "identifier#";
-        Matcher matcher = PATTERNS_UNION.matcher(s);
-        assertFalse(matcher.matches());
+    public void punctuationShouldNotMatch() {
+        assertFalse(patternsUnion.matcher("a2$").matches());
+        assertFalse(patternsUnion.matcher("$$$$$").matches());
+        assertFalse(patternsUnion.matcher("$a").matches());
 
-        if (matcher.find()) {
-            assertEquals("identifier", s.substring(0, matcher.start()));
-        }
-    }
+        assertFalse(patternsUnion.matcher("a!").matches());
+        assertFalse(patternsUnion.matcher("a@").matches());
+        assertFalse(patternsUnion.matcher("#a").matches());
+        assertFalse(patternsUnion.matcher("R$").matches());
+        assertFalse(patternsUnion.matcher("a$").matches());
+        assertFalse(patternsUnion.matcher("a$a").matches());
+        assertFalse(patternsUnion.matcher("$a").matches());
+        assertFalse(patternsUnion.matcher("&&").matches());
 
-    @Test
-    public void shouldReadPatternAndStopAtComma() {
-        String s = "identifier;";
-        Matcher matcher = PATTERNS_UNION.matcher(s);
-        assertFalse(matcher.matches());
+        // TODO: Reject these dudes alone: !, @, #, $, %
+        // Why do they match? They are not in regex. Maybe because they are accepted as punctuation
 
-        String firstCharacterOutOfPattern;
-        String stringAsPattern;
-        if (matcher.find()) {
-            firstCharacterOutOfPattern = matcher.group();
-            stringAsPattern = s.substring(0, matcher.start());
-            assertEquals(";", firstCharacterOutOfPattern);
-            assertEquals("identifier", stringAsPattern);
-        }
+        /*assertFalse(patternsUnion.matcher("!").matches());
+        assertFalse(patternsUnion.matcher("@").matches());
+        assertFalse(patternsUnion.matcher("#").matches());
+        assertFalse(patternsUnion.matcher("$").matches());
+        assertFalse(patternsUnion.matcher("%").matches());
+        //assertFalse(patternsUnion.matcher("#").matches());*/
+
     }
 
     @Test
@@ -125,4 +126,43 @@ public class PascalPatternTest {
         assertTrue(patternsUnion.matcher("999999999.11111111").matches());
     }
 
+    @Test
+    public void shouldReadPatternAndStopAtUnknown() {
+        String s = "identifier#";
+        Matcher matcher = PATTERNS_UNION.matcher(s);
+        assertFalse(matcher.matches());
+
+        if (matcher.find()) {
+            assertEquals("identifier", s.substring(0, matcher.start()));
+        }
+    }
+
+    @Test
+    public void shouldReadPatternAndStopAtComma() {
+        String s = "identifier;";
+        Matcher matcher = PATTERNS_UNION.matcher(s);
+        assertFalse(matcher.matches());
+
+        String firstCharacterOutOfPattern;
+        String stringAsPattern;
+        if (matcher.find()) {
+            firstCharacterOutOfPattern = matcher.group();
+            stringAsPattern = s.substring(0, matcher.start());
+            assertEquals(";", firstCharacterOutOfPattern);
+            assertEquals("identifier", stringAsPattern);
+        }
+    }
+
+    @Test
+    public void shouldReadArithmetic() {
+        String s = "0 + 0";
+        Matcher matcher = PATTERNS_UNION.matcher(s);
+        assertFalse(matcher.matches());
+        matcher.reset();
+
+        while (matcher.find()) {
+            String c = matcher.group();
+            assertTrue(PATTERNS_UNION.matcher(c).matches());
+        }
+    }
 }
