@@ -13,5 +13,6 @@ public final class TokenType {
     public static final String INTEGER = "Integer";
     public static final String REAL = "Real";
     public static final String IDENTIFIER = "Identifier";
+    public static final String COMMENT = "Comment";
 
 }

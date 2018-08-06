@@ -15,6 +15,8 @@ public final class PascalPattern {
     public static final List<String> ADDITIVE_OPERATORS = Arrays.asList("+", "-", "or");
     public static final List<String> MULTIPLICATIVE_OPERATORS = Arrays.asList("*", "/", "and");
     public static final String ATTRIBUTION_COMMAND = ":=";
+    public static final String COMMENT_OPEN = "{";
+    public static final String COMMENT_CLOSE = "}";
 
     public static final Pattern PATTERNS_UNION;
     public static final Pattern IDENTIFIER_PATTERN;

@@ -1,6 +1,7 @@
 package compilerbuilding.util;
 
 import compilerbuilding.lexical.Token;
+import compilerbuilding.lexical.TokenType;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,11 +20,11 @@ public class FileUtil {
 
     public static void writeTokensToFile(List<Token> tokens) {
         final StringBuilder sb = new StringBuilder();
+        sb.append(String.format("%20s %20s %20s\n\n", "NAME", "TYPE", "LINE"));
+
         tokens.forEach(c -> {
-            sb.append(c.getName()).append("-------")
-                    .append(c.getType()).append("-------")
-                    .append(c.getLine()).append("-------")
-                    .append("\n");
+            String s = String.format("%20s %20s %20s", c.getName(), c.getType(), c.getLine());
+            sb.append(s).append("\n");
         });
 
         try {

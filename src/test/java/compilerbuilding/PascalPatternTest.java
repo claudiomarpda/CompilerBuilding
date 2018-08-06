@@ -68,6 +68,14 @@ public class PascalPatternTest {
         assertFalse(patternsUnion.matcher("$a").matches());
         assertFalse(patternsUnion.matcher("&&").matches());
 
+        assertTrue(patternsUnion.matcher("{").matches());
+        assertTrue(patternsUnion.matcher("}").matches());
+
+        assertFalse(patternsUnion.matcher("{{").matches());
+        assertFalse(patternsUnion.matcher("}}").matches());
+        assertFalse(patternsUnion.matcher("{a").matches());
+        assertFalse(patternsUnion.matcher("a}").matches());
+
         // TODO: Reject these dudes alone: !, @, #, $, %
         // Why do they match? They are not in regex. Maybe because they are accepted as punctuation
 

@@ -1,13 +1,11 @@
 package compilerbuilding.lexical;
 
-import compilerbuilding.util.FileUtil;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 
 import static compilerbuilding.lexical.PascalPattern.*;
-import static compilerbuilding.lexical.PascalPattern.ATTRIBUTION_COMMAND;
 import static compilerbuilding.lexical.TokenType.*;
 
 public final class LexicalAnalyzer {
@@ -15,15 +13,15 @@ public final class LexicalAnalyzer {
     private int lineIndex = 0;
 
     private List<Token> tokens = new ArrayList<>();
+    private boolean commentOn = false;
 
-    public void analyze(String input) {
+    public List<Token> analyze(String input) {
         for (String line : input.split("\n")) {
             checkLine(line);
         }
 
         tokens.forEach(c -> c.setType(identifyTokenType(c.getName())));
-
-        FileUtil.writeTokensToFile(tokens);
+        return tokens.stream().filter(c -> !c.getType().equals(COMMENT)).collect(Collectors.toList());
     }
 
     private void checkLine(String line) {
@@ -34,11 +32,12 @@ public final class LexicalAnalyzer {
         }
     }
 
+    // TODO: check comment block: { c }
     private void checkToken(String token) {
         String tokenPart = "";
         while (token != null && token.length() > 0) {
             if (tokenMatches(token)) {
-                tokens.add(new Token(token, TokenType.UNDEFINED, lineIndex));
+                tokens.add(new Token(token, UNDEFINED, lineIndex));
                 break;
             } else {
                 String found = findPatternInString(token);
@@ -50,8 +49,8 @@ public final class LexicalAnalyzer {
                 }
             }
         }
-        if(!tokenPart.equals("")) {
-            if(tokenMatches(tokenPart)) {
+        if (!tokenPart.equals("")) {
+            if (tokenMatches(tokenPart)) {
                 tokens.add(new Token(tokenPart, UNDEFINED, lineIndex));
             } else {
                 tokens.add(new Token(tokenPart, UNKNOWN, lineIndex));
@@ -72,34 +71,42 @@ public final class LexicalAnalyzer {
     }
 
     private String identifyTokenType(String token) {
-        if(KEYWORDS.contains(token)) {
+//        if (COMMENT_CLOSE.equals(token)) {
+//            commentOn = false;
+//            return COMMENT;
+//        } else if (commentOn) {
+//            return COMMENT;
+//        } else if (COMMENT_OPEN.equals(token)) {
+//            commentOn = true;
+//            return COMMENT;
+        if (KEYWORDS.contains(token)) {
             return KEYWORD;
-        }
-        else if(DELIMITERS.contains(token)) {
+        } else if (DELIMITERS.contains(token)) {
             return DELIMITER;
-        }
-        else if(RELATIONAL_OPERATORS.contains(token)) {
+        } else if (RELATIONAL_OPERATORS.contains(token)) {
             return RELATIONAL_OPERATOR;
-        }
-        else if(ADDITIVE_OPERATORS.contains(token)) {
+        } else if (ADDITIVE_OPERATORS.contains(token)) {
             return ADDITIVE_OPERATOR;
-        }
-        else if(MULTIPLICATIVE_OPERATORS.contains(token)) {
+        } else if (MULTIPLICATIVE_OPERATORS.contains(token)) {
             return MULTIPLICATIVE_OPERATOR;
-        }
-        else if(ATTRIBUTION_COMMAND.equals(token)) {
+        } else if (ATTRIBUTION_COMMAND.equals(token)) {
             return ATTRIBUTION;
-        }
-        else if(INTEGER_PATTERN.matcher(token).matches()) {
+        } else if (INTEGER_PATTERN.matcher(token).matches()) {
             return INTEGER;
-        }
-        else if(REAL_PATTERN.matcher(token).matches()) {
+        } else if (REAL_PATTERN.matcher(token).matches()) {
             return REAL;
-        }
-        else if(IDENTIFIER_PATTERN.matcher(token).matches()) {
+        } else if (IDENTIFIER_PATTERN.matcher(token).matches()) {
             return IDENTIFIER;
         }
         return UNKNOWN;
     }
 
+    private void checkComment(String token) {
+        if(token.equals("}")) {
+            commentOn = false;
+        }
+        else if(token.equals("{")){
+            commentOn = true;
+        }
+    }
 }
