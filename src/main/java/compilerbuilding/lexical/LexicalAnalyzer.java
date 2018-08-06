@@ -32,18 +32,45 @@ public final class LexicalAnalyzer {
         }
     }
 
-    // TODO: check comment block: { c }
+    // TODO: Fix comment checking. The first two chars of "{ comment}" and "a{comment}" fails
     private void checkToken(String token) {
         String tokenPart = "";
         while (token != null && token.length() > 0) {
-            if (tokenMatches(token)) {
+
+            if (token.equals(COMMENT_CLOSE)) {
+                commentOn = false;
+                token = token.substring(1);
+                continue;
+            }
+
+
+            if (tokenMatches(token) && !commentOn) {
                 tokens.add(new Token(token, UNDEFINED, lineIndex));
                 break;
             } else {
                 String found = findPatternInString(token);
-                if (found != null) {
-                    tokenPart += token.substring(0, found.length());
-                    token = token.substring(found.length());
+                int i = found.length();
+
+                if (found.contains(COMMENT_CLOSE)) {
+                    // Update token with string after "}".
+                    // "comment } word" becomes " word"
+                    i = found.indexOf(COMMENT_CLOSE);
+                    token = found = token.substring(i);
+                    this.commentOn = false;
+                } else if (found.contains(COMMENT_OPEN)) {
+                    this.commentOn = true;
+                }
+
+                if (commentOn) {
+                    // Removes each character of the token until find a "}", or go to the next token
+                    // {comment becomes comment, and so on
+                    token = token.substring(1);
+                    continue;
+                }
+
+                if (!found.equals("")) {
+                    tokenPart = found;
+                    token = token.substring(i);
                 } else {
                     break;
                 }
@@ -64,10 +91,14 @@ public final class LexicalAnalyzer {
 
     private String findPatternInString(String token) {
         Matcher matcher = PATTERNS_UNION.matcher(token);
-        if (matcher.find()) {
-            return token.substring(0, matcher.end());
-        }
-        return null;
+        StringBuilder s = new StringBuilder();
+
+        // Moves the cursor forward until a character is not recognized
+        while (matcher.find()) ;
+
+        // Start is the first character index that didn't match in regex
+        s.append(token, 0, matcher.start() - 1);
+        return s.toString();
     }
 
     private String identifyTokenType(String token) {
@@ -101,12 +132,4 @@ public final class LexicalAnalyzer {
         return UNKNOWN;
     }
 
-    private void checkComment(String token) {
-        if(token.equals("}")) {
-            commentOn = false;
-        }
-        else if(token.equals("{")){
-            commentOn = true;
-        }
-    }
 }

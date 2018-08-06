@@ -11,9 +11,15 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        String input = FileUtil.readFileAsString("input/input1.txt");
+        for (int i = 0; i <=4; i++) run(i);
+    }
+
+    private static void run(int index) throws IOException {
+        String fileName = "input" + index + ".pas";
+
+        String input = FileUtil.readFileAsString("input/" + fileName);
         List<Token> tokens = new LexicalAnalyzer().analyze(input);
-        FileUtil.writeTokensToFile(tokens);
+        FileUtil.writeTokensToFile("output/" + fileName, tokens);
     }
 
 }

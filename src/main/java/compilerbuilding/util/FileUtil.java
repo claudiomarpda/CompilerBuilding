@@ -18,19 +18,15 @@ public class FileUtil {
         Files.write(Paths.get(fullPath), data.getBytes());
     }
 
-    public static void writeTokensToFile(List<Token> tokens) {
+    public static void writeTokensToFile(String fullPath, List<Token> tokens) throws IOException {
         final StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%20s %20s %20s\n\n", "NAME", "TYPE", "LINE"));
+        sb.append(String.format("%25s %25s %25s\n\n", "NAME", "TYPE", "LINE"));
 
         tokens.forEach(c -> {
-            String s = String.format("%20s %20s %20s", c.getName(), c.getType(), c.getLine());
+            String s = String.format("%25s %25s %25s", c.getName(), c.getType(), c.getLine());
             sb.append(s).append("\n");
         });
 
-        try {
-            writeStringToFile("output/output.txt", sb.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        writeStringToFile(fullPath, sb.toString());
     }
 }
