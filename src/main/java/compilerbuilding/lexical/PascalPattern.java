@@ -23,7 +23,6 @@ public final class PascalPattern {
     public static final Pattern INTEGER_PATTERN;
     public static final Pattern REAL_PATTERN;
 
-
     static {
         // \w: A word character, short for [a-zA-Z_0-9]
         String identifierRegex = "^[a-zA-Z]\\w*";
@@ -47,7 +46,15 @@ public final class PascalPattern {
 
         IDENTIFIER_PATTERN = Pattern.compile(identifierRegex);
         INTEGER_PATTERN = Pattern.compile(integerRegex);
-        REAL_PATTERN= Pattern.compile(realRegex);
+        REAL_PATTERN = Pattern.compile(realRegex);
     }
 
+    public static boolean containsSymbol(String symbol) {
+        return KEYWORDS.contains(symbol)
+                | DELIMITERS.contains(symbol)
+                | RELATIONAL_OPERATORS.contains(symbol)
+                | ADDITIVE_OPERATORS.contains(symbol)
+                | MULTIPLICATIVE_OPERATORS.contains(symbol)
+                | ATTRIBUTION_COMMAND.equals(symbol);
+    }
 }

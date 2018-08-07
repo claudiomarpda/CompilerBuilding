@@ -1,5 +1,6 @@
 package compilerbuilding;
 
+import compilerbuilding.lexical.PascalPattern;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -163,14 +164,33 @@ public class PascalPatternTest {
 
     @Test
     public void shouldReadArithmetic() {
-        String s = "0 + 0";
-        Matcher matcher = PATTERNS_UNION.matcher(s);
-        assertFalse(matcher.matches());
-        matcher.reset();
+        String[] tokens = {"0 + 0", "0+0", "0+ 0", "0 +0", "(0+0)", "(0 + 0)", "(0+ 0)", "(0 +0)"};
+        checkWholeTokenAndCharactersAgainstPattern(tokens);
+    }
 
-        while (matcher.find()) {
-            String c = matcher.group();
-            assertTrue(PATTERNS_UNION.matcher(c).matches());
+    @Test
+    public void delimitersAndLettersShouldBeSeparated() {
+        String[] tokens = {"(identifier)", "( identifier )", "(identifier )", "( identifier)",
+                "IDENTIFIER,", "n2:", "integer;", "final:", "integer;"};
+
+        checkWholeTokenAndCharactersAgainstPattern(tokens);
+    }
+
+    private void checkWholeTokenAndCharactersAgainstPattern(String[] tokens) {
+        for (String s : tokens) {
+            Matcher matcher = PATTERNS_UNION.matcher(s);
+            assertFalse(matcher.matches());
+            matcher.reset();
+
+            while (matcher.find()) {
+                String c = matcher.group();
+                assertTrue(PATTERNS_UNION.matcher(c).matches());
+            }
         }
+    }
+
+    @Test
+    public void symbolsShouldNotContainEmptyString() {
+        assertFalse(PascalPattern.containsSymbol(""));
     }
 }

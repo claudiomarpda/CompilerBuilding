@@ -13,7 +13,6 @@ public final class LexicalAnalyzer {
     private int lineIndex = 0;
 
     private List<Token> tokens = new ArrayList<>();
-    private boolean commentOn = false;
 
     public List<Token> analyze(String input) {
         for (String line : input.split("\n")) {
@@ -24,92 +23,58 @@ public final class LexicalAnalyzer {
         return tokens.stream().filter(c -> !c.getType().equals(COMMENT)).collect(Collectors.toList());
     }
 
+    private boolean matchesPatterns(String token) {
+        return PATTERNS_UNION.matcher(token).matches();
+    }
+
     private void checkLine(String line) {
         lineIndex++;
         for (String token : line.split(" ")) {
             token = token.trim();
+            if (token.equals("")) continue;
             checkToken(token);
         }
     }
 
-    // TODO: Fix comment checking. The first two chars of "{ comment}" and "a{comment}" fails
     private void checkToken(String token) {
-        String tokenPart = "";
-        while (token != null && token.length() > 0) {
-
-            if (token.equals(COMMENT_CLOSE)) {
-                commentOn = false;
-                token = token.substring(1);
-                continue;
-            }
-
-
-            if (tokenMatches(token) && !commentOn) {
-                tokens.add(new Token(token, UNDEFINED, lineIndex));
-                break;
-            } else {
-                String found = findPatternInString(token);
-                int i = found.length();
-
-                if (found.contains(COMMENT_CLOSE)) {
-                    // Update token with string after "}".
-                    // "comment } word" becomes " word"
-                    i = found.indexOf(COMMENT_CLOSE);
-                    token = found = token.substring(i);
-                    this.commentOn = false;
-                } else if (found.contains(COMMENT_OPEN)) {
-                    this.commentOn = true;
+        if (matchesPatterns(token)) {
+            tokens.add(new Token(token, UNDEFINED, lineIndex));
+        } else {
+            for (String s : checkTokenCharacters(token)) {
+                if (matchesPatterns(s)) {
+                    tokens.add(new Token(s, UNDEFINED, lineIndex));
+                } else if (!s.equals("")) {
+                    tokens.add(new Token(s, UNKNOWN, lineIndex));
                 }
-
-                if (commentOn) {
-                    // Removes each character of the token until find a "}", or go to the next token
-                    // {comment becomes comment, and so on
-                    token = token.substring(1);
-                    continue;
-                }
-
-                if (!found.equals("")) {
-                    tokenPart = found;
-                    token = token.substring(i);
-                } else {
-                    break;
-                }
-            }
-        }
-        if (!tokenPart.equals("")) {
-            if (tokenMatches(tokenPart)) {
-                tokens.add(new Token(tokenPart, UNDEFINED, lineIndex));
-            } else {
-                tokens.add(new Token(tokenPart, UNKNOWN, lineIndex));
             }
         }
     }
 
-    private boolean tokenMatches(String token) {
-        return PATTERNS_UNION.matcher(token).matches();
-    }
-
-    private String findPatternInString(String token) {
+    private List<String> checkTokenCharacters(String token) {
         Matcher matcher = PATTERNS_UNION.matcher(token);
-        StringBuilder s = new StringBuilder();
+        List<String> tokenList = new ArrayList<>();
+        String part = "";
 
         // Moves the cursor forward until a character is not recognized
-        while (matcher.find()) ;
+        while (matcher.find() && !matcher.hitEnd()) {
 
-        // Start is the first character index that didn't match in regex
-        s.append(token, 0, matcher.start() - 1);
-        return s.toString();
+            if (PascalPattern.containsSymbol(matcher.group())) {
+                if (!part.equals("")) {
+                    tokenList.add(part);
+                }
+                tokenList.add(matcher.group());
+            } else {
+                part += matcher.group();
+                if (PascalPattern.containsSymbol(part)) {
+                    tokenList.add(part);
+                    part = "";
+                }
+            }
+        }
+        return tokenList;
     }
 
     private String identifyTokenType(String token) {
-//        if (COMMENT_CLOSE.equals(token)) {
-//            commentOn = false;
-//            return COMMENT;
-//        } else if (commentOn) {
-//            return COMMENT;
-//        } else if (COMMENT_OPEN.equals(token)) {
-//            commentOn = true;
-//            return COMMENT;
         if (KEYWORDS.contains(token)) {
             return KEYWORD;
         } else if (DELIMITERS.contains(token)) {
