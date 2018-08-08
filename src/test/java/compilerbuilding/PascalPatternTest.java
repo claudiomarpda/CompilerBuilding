@@ -171,6 +171,7 @@ public class PascalPatternTest {
     @Test
     public void delimitersAndLettersShouldBeSeparated() {
         String[] tokens = {"(identifier)", "( identifier )", "(identifier )", "( identifier)",
+                "{identifier}", "{ identifier }", "{identifier }", "{ identifier}",
                 "IDENTIFIER,", "n2:", "integer;", "final:", "integer;"};
 
         checkWholeTokenAndCharactersAgainstPattern(tokens);

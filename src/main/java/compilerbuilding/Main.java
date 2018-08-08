@@ -11,8 +11,8 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        run(2);
-//        for (int i = 0; i <=4; i++) run(i);
+//        run(0);
+        for (int i = 0; i <=4; i++) run(i);
     }
 
     private static void run(int index) throws IOException {

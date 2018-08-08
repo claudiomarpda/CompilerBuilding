@@ -13,6 +13,7 @@ public final class LexicalAnalyzer {
     private int lineIndex = 0;
 
     private List<Token> tokens = new ArrayList<>();
+    private boolean commentOpen;
 
     public List<Token> analyze(String input) {
         for (String line : input.split("\n")) {
@@ -37,8 +38,22 @@ public final class LexicalAnalyzer {
     }
 
     private void checkToken(String token) {
-        if (matchesPatterns(token)) {
+        if (matchesPatterns(token) && !commentOpen) {
             tokens.add(new Token(token, UNDEFINED, lineIndex));
+
+        } else if (checkTokenWithoutLastCharacter(token) && !commentOpen && !containsCommentSymbol(token)) {
+            tokens.add(new Token(token.substring(0, token.length() - 1), UNDEFINED, lineIndex));
+            tokens.add(new Token(token.substring(token.length() - 1), UNDEFINED, lineIndex));
+
+        } else if (checkTokenWithoutFirstCharacter(token) && !commentOpen && !containsCommentSymbol(token)) {
+            tokens.add(new Token(token.substring(1), UNDEFINED, lineIndex));
+            tokens.add(new Token(token.substring(0, 0), UNDEFINED, lineIndex));
+
+        } else if (checkTokenWithoutFirstAndLastCharacters(token) && !commentOpen && !containsCommentSymbol(token)) {
+            tokens.add(new Token(token.substring(1, token.length() - 1), UNDEFINED, lineIndex));
+            tokens.add(new Token(token.substring(token.length() - 1), UNDEFINED, lineIndex));
+            tokens.add(new Token(token.substring(0, 0), UNDEFINED, lineIndex));
+
         } else {
             for (String s : checkTokenCharacters(token)) {
                 if (matchesPatterns(s)) {
@@ -50,6 +65,10 @@ public final class LexicalAnalyzer {
         }
     }
 
+    private boolean containsCommentSymbol(String token) {
+        return token.contains(COMMENT_OPEN) || token.contains(COMMENT_CLOSE);
+    }
+
     private List<String> checkTokenCharacters(String token) {
         Matcher matcher = PATTERNS_UNION.matcher(token);
         List<String> tokenList = new ArrayList<>();
@@ -59,27 +78,54 @@ public final class LexicalAnalyzer {
         // Moves the cursor forward until a character is not recognized
         while (matcher.find() && !matcher.hitEnd()) {
             String current = matcher.group();
+
+            if (current.equals(COMMENT_CLOSE)) {
+                commentOpen = false;
+                return tokenList;
+            } else if (current.equals(COMMENT_OPEN)) {
+                commentOpen = true;
+                continue;
+            }
+            if (commentOpen) continue;
+
             if (containsSymbol(current)) {
                 if (!part.equals("")) {
                     tokenList.add(part);
-                    i+= part.length();
+                    i += part.length();
                     part = "";
                 }
                 tokenList.add(current);
                 i += current.length();
             } else {
                 part += matcher.group();
+
+                // This case never happened so far
                 if (containsSymbol(part)) {
                     tokenList.add(part);
-                    i+= part.length();
+                    i += part.length();
                     part = "";
                 }
             }
         }
-        if(i < token.length()) {
+        if (i < token.length() && !commentOpen) {
             tokenList.add(token.substring(i));
         }
         return tokenList;
+    }
+
+    private boolean checkTokenWithoutLastCharacter(String token) {
+        String subToken = token.substring(0, token.length() - 1);
+        return PATTERNS_UNION.matcher(subToken).matches();
+    }
+
+    private boolean checkTokenWithoutFirstCharacter(String token) {
+        String subToken = token.substring(1);
+        return PATTERNS_UNION.matcher(subToken).matches();
+    }
+
+    private boolean checkTokenWithoutFirstAndLastCharacters(String token) {
+        String subToken = token.substring(1, token.length() - 1);
+        return PATTERNS_UNION.matcher(subToken).matches();
     }
 
     private String identifyTokenType(String token) {

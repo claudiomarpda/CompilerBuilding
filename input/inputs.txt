@@ -1,0 +1,18 @@
+Elements that must be classified
+
+23 144 59 82 50
+
+input0.pas
+23
+
+input1.pas
+144
+
+input2.pas
+59
+
+input3.pas
+79
+
+input4.pas
+49
