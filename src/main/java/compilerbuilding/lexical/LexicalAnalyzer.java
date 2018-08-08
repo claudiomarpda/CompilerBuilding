@@ -47,12 +47,12 @@ public final class LexicalAnalyzer {
 
         } else if (checkTokenWithoutFirstCharacter(token) && !commentOpen && !containsCommentSymbol(token)) {
             tokens.add(new Token(token.substring(1), UNDEFINED, lineIndex));
-            tokens.add(new Token(token.substring(0, 0), UNDEFINED, lineIndex));
+            tokens.add(new Token(token.substring(0, 1), UNDEFINED, lineIndex));
 
         } else if (checkTokenWithoutFirstAndLastCharacters(token) && !commentOpen && !containsCommentSymbol(token)) {
             tokens.add(new Token(token.substring(1, token.length() - 1), UNDEFINED, lineIndex));
             tokens.add(new Token(token.substring(token.length() - 1), UNDEFINED, lineIndex));
-            tokens.add(new Token(token.substring(0, 0), UNDEFINED, lineIndex));
+            tokens.add(new Token(token.substring(0, 1), UNDEFINED, lineIndex));
 
         } else {
             for (String s : checkTokenCharacters(token)) {

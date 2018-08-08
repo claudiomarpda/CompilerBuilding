@@ -25,13 +25,13 @@
                         ;                 Delimiter                         6
                        if                   Keyword                         7
                    NUMERO                Identifier                         7
-                                            Unknown                         7
+                        (                 Delimiter                         7
                        >=       Relational Operator                         7
                        20                   Integer                         7
                         )                 Delimiter                         7
-                      and   Multiplicative Operator                         7
+                      and                Identifier                         7
                    NUMERO                Identifier                         7
-                                            Unknown                         7
+                        (                 Delimiter                         7
                         <       Relational Operator                         7
                         =       Relational Operator                         7
                        90                   Integer                         7

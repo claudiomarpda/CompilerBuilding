@@ -31,9 +31,7 @@
                         a                Identifier                         9
                         :                 Delimiter                         9
                         =       Relational Operator                         9
-                      ran                Identifier                         9
-                       do                   Keyword                         9
-                        m                Identifier                         9
+                   random                Identifier                         9
                         (                 Delimiter                         9
                         4                   Integer                         9
                         )                 Delimiter                         9
@@ -43,7 +41,7 @@
                        if                   Keyword                        10
                         =       Relational Operator                        10
                         1                   Integer                        10
-                                            Unknown                        10
+                        a                Identifier                        10
                      then                   Keyword                        10
            textbackground                Identifier                        10
                         (                 Delimiter                        10
@@ -53,7 +51,7 @@
                        if                   Keyword                        11
                         =       Relational Operator                        11
                         2                   Integer                        11
-                                            Unknown                        11
+                        a                Identifier                        11
                      then                   Keyword                        11
            textbackground                Identifier                        11
                         (                 Delimiter                        11
@@ -63,7 +61,7 @@
                        if                   Keyword                        12
                         =       Relational Operator                        12
                         3                   Integer                        12
-                                            Unknown                        12
+                        a                Identifier                        12
                      then                   Keyword                        12
            textbackground                Identifier                        12
                         (                 Delimiter                        12
@@ -73,7 +71,7 @@
                        if                   Keyword                        13
                         =       Relational Operator                        13
                         4                   Integer                        13
-                                            Unknown                        13
+                        a                Identifier                        13
                      then                   Keyword                        13
            textbackground                Identifier                        13
                         (                 Delimiter                        13

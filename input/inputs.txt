@@ -1,6 +1,7 @@
 Elements that must be classified
 
-23 144 59 82 50
+My results
+23 144 59 80 50
 
 input0.pas
 23
@@ -13,6 +14,9 @@ input2.pas
 
 input3.pas
 79
+error in line 9
+a:=random(4)+1;
+reason: delimiter := is recognized as two different delimiters
 
 input4.pas
 49

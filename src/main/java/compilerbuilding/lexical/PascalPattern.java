@@ -12,11 +12,12 @@ public final class PascalPattern {
 
     public static final List<String> DELIMITERS = Arrays.asList(",", ";", ".", ":", "(", ")");
     public static final List<String> RELATIONAL_OPERATORS = Arrays.asList("=", "<", ">", "<=", ">=", "<>");
-    public static final List<String> ADDITIVE_OPERATORS = Arrays.asList("+", "-", "or");
-    public static final List<String> MULTIPLICATIVE_OPERATORS = Arrays.asList("*", "/", "and");
+    public static final List<String> ADDITIVE_OPERATORS = Arrays.asList("+", "-");
+    public static final List<String> MULTIPLICATIVE_OPERATORS = Arrays.asList("*", "/");
     public static final String ATTRIBUTION_COMMAND = ":=";
     public static final String COMMENT_OPEN = "{";
     public static final String COMMENT_CLOSE = "}";
+    public static final List<String> LOGIC_OPERATORS = Arrays.asList("or", "and");
 
     public static final Pattern PATTERNS_UNION;
     public static final Pattern IDENTIFIER_PATTERN;
@@ -35,6 +36,7 @@ public final class PascalPattern {
         union.append("|").append(String.join("|", RELATIONAL_OPERATORS));
         union.append("|\\").append(String.join("|", ADDITIVE_OPERATORS));
         union.append("|\\").append(String.join("|", MULTIPLICATIVE_OPERATORS));
+        union.append("|").append(String.join("|", LOGIC_OPERATORS));
         union.append("|").append(ATTRIBUTION_COMMAND);
         union.append('|').append(identifierRegex);
         union.append('|').append(integerRegex);
@@ -50,8 +52,7 @@ public final class PascalPattern {
     }
 
     public static boolean containsSymbol(String symbol) {
-        return KEYWORDS.contains(symbol)
-                | DELIMITERS.contains(symbol)
+        return DELIMITERS.contains(symbol)
                 | RELATIONAL_OPERATORS.contains(symbol)
                 | ADDITIVE_OPERATORS.contains(symbol)
                 | MULTIPLICATIVE_OPERATORS.contains(symbol)
