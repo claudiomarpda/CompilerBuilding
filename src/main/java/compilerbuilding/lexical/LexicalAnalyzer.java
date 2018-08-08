@@ -55,21 +55,29 @@ public final class LexicalAnalyzer {
         List<String> tokenList = new ArrayList<>();
         String part = "";
 
+        int i = 0;
         // Moves the cursor forward until a character is not recognized
         while (matcher.find() && !matcher.hitEnd()) {
-
-            if (PascalPattern.containsSymbol(matcher.group())) {
+            String current = matcher.group();
+            if (containsSymbol(current)) {
                 if (!part.equals("")) {
                     tokenList.add(part);
+                    i+= part.length();
+                    part = "";
                 }
-                tokenList.add(matcher.group());
+                tokenList.add(current);
+                i += current.length();
             } else {
                 part += matcher.group();
-                if (PascalPattern.containsSymbol(part)) {
+                if (containsSymbol(part)) {
                     tokenList.add(part);
+                    i+= part.length();
                     part = "";
                 }
             }
+        }
+        if(i < token.length()) {
+            tokenList.add(token.substring(i));
         }
         return tokenList;
     }
