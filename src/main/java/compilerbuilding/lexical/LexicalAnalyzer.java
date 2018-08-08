@@ -38,18 +38,18 @@ public final class LexicalAnalyzer {
     }
 
     private void checkToken(String token) {
-        if (matchesPatterns(token) && !commentOpen) {
+        if (!commentOpen && matchesPatterns(token)) {
             tokens.add(new Token(token, UNDEFINED, lineIndex));
 
-        } else if (checkTokenWithoutLastCharacter(token) && !commentOpen && !containsCommentSymbol(token)) {
+        } else if (!commentOpen && !containsCommentSymbol(token) && checkTokenWithoutLastCharacter(token)) {
             tokens.add(new Token(token.substring(0, token.length() - 1), UNDEFINED, lineIndex));
             tokens.add(new Token(token.substring(token.length() - 1), UNDEFINED, lineIndex));
 
-        } else if (checkTokenWithoutFirstCharacter(token) && !commentOpen && !containsCommentSymbol(token)) {
+        } else if (!commentOpen && !containsCommentSymbol(token) && checkTokenWithoutFirstCharacter(token)) {
             tokens.add(new Token(token.substring(1), UNDEFINED, lineIndex));
             tokens.add(new Token(token.substring(0, 1), UNDEFINED, lineIndex));
 
-        } else if (checkTokenWithoutFirstAndLastCharacters(token) && !commentOpen && !containsCommentSymbol(token)) {
+        } else if (!commentOpen && !containsCommentSymbol(token) && checkTokenWithoutFirstAndLastCharacters(token)) {
             tokens.add(new Token(token.substring(1, token.length() - 1), UNDEFINED, lineIndex));
             tokens.add(new Token(token.substring(token.length() - 1), UNDEFINED, lineIndex));
             tokens.add(new Token(token.substring(0, 1), UNDEFINED, lineIndex));
