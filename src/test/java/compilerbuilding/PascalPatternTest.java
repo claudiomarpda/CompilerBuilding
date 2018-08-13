@@ -194,4 +194,18 @@ public class PascalPatternTest {
     public void symbolsShouldNotContainEmptyString() {
         assertFalse(PascalPattern.containsSymbol(""));
     }
+
+    @Test
+    public void inlineCommentShouldNotMatch() {
+        String  s = "//";
+        Matcher matcher = PATTERNS_UNION.matcher(s);
+        assertFalse(matcher.matches());
+    }
+
+    @Test
+    public void threeDPatternShouldSuccess() {
+        String  s = "30.4X5.3Y3.12Z";
+        Matcher matcher = PATTERNS_UNION.matcher(s);
+        assertTrue(matcher.matches());
+    }
 }

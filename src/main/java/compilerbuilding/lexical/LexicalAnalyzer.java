@@ -17,6 +17,9 @@ public final class LexicalAnalyzer {
 
     public List<Token> analyze(String input) {
         for (String line : input.split("\n")) {
+            if (line.length() >= 2 && line.substring(0, 2).equals(COMMENT_LINE)) {
+                continue;
+            }
             checkLine(line);
         }
 
@@ -38,7 +41,10 @@ public final class LexicalAnalyzer {
     }
 
     private void checkToken(String token) {
-        if (!commentOpen && matchesPatterns(token)) {
+
+        if (!commentOpen && THREE_D_PATTERN.matcher(token).matches()) {
+            tokens.add(new Token(token, UNDEFINED, lineIndex));
+        } else if (!commentOpen && matchesPatterns(token)) {
             tokens.add(new Token(token, UNDEFINED, lineIndex));
 
         } else if (!commentOpen && !containsCommentSymbol(token) && checkTokenWithoutLastCharacter(token)) {
@@ -87,6 +93,18 @@ public final class LexicalAnalyzer {
                 continue;
             }
             if (commentOpen) continue;
+
+            if (INTEGER_PATTERN.matcher(part).matches()) {
+                if (current.equals(".")) {
+                    part += ".";
+                    i++;
+
+                    while (!matcher.hitEnd() && matcher.find() && INTEGER_PATTERN.matcher(matcher.group()).matches()) {
+                        part += matcher.group();
+                        i++;
+                    }
+                }
+            }
 
             if (containsSymbol(current)) {
                 if (!part.equals("")) {
@@ -147,6 +165,8 @@ public final class LexicalAnalyzer {
             return REAL;
         } else if (IDENTIFIER_PATTERN.matcher(token).matches()) {
             return IDENTIFIER;
+        } else if (THREE_D_PATTERN.matcher(token).matches()) {
+            return THREED;
         }
         return UNKNOWN;
     }

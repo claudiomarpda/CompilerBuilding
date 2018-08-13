@@ -14,5 +14,6 @@ public final class TokenType {
     public static final String REAL = "Real";
     public static final String IDENTIFIER = "Identifier";
     public static final String COMMENT = "Comment";
+    public static final String THREED = "Real 3D";
 
 }

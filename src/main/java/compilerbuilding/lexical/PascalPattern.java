@@ -17,18 +17,23 @@ public final class PascalPattern {
     public static final String ATTRIBUTION_COMMAND = ":=";
     public static final String COMMENT_OPEN = "{";
     public static final String COMMENT_CLOSE = "}";
+    public static final String COMMENT_LINE = "//";
     public static final List<String> LOGIC_OPERATORS = Arrays.asList("or", "and");
 
     public static final Pattern PATTERNS_UNION;
     public static final Pattern IDENTIFIER_PATTERN;
     public static final Pattern INTEGER_PATTERN;
     public static final Pattern REAL_PATTERN;
+    public static final Pattern THREE_D_PATTERN;
 
     static {
         // \w: A word character, short for [a-zA-Z_0-9]
         String identifierRegex = "^[a-zA-Z]\\w*";
         String integerRegex = "\\d+";
         String realRegex = "\\d+\\.\\d*";
+//        String threeDPattern = "\\d+\\.\\d*[a-zA-Z]\\d+\\.\\d*[a-zA-Z]\\d+\\.\\d*[a-zA-Z]";
+        String letterRegex = "[a-zA-Z]";
+        String threeDPattern = realRegex + letterRegex + realRegex + letterRegex + realRegex + letterRegex;
 
         StringBuilder union = new StringBuilder();
         union.append(String.join("|", KEYWORDS));
@@ -41,6 +46,7 @@ public final class PascalPattern {
         union.append('|').append(identifierRegex);
         union.append('|').append(integerRegex);
         union.append('|').append(realRegex);
+        union.append('|').append(threeDPattern);
 
         PATTERNS_UNION = Pattern.compile(union.toString());
         System.out.println("UNION OF ALL REGULAR EXPRESSIONS");
@@ -49,6 +55,7 @@ public final class PascalPattern {
         IDENTIFIER_PATTERN = Pattern.compile(identifierRegex);
         INTEGER_PATTERN = Pattern.compile(integerRegex);
         REAL_PATTERN = Pattern.compile(realRegex);
+        THREE_D_PATTERN = Pattern.compile(threeDPattern);
     }
 
     public static boolean containsSymbol(String symbol) {
