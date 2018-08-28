@@ -23,13 +23,14 @@ public class SyntacticAnalyzer {
     }
 
     public void analyze() throws SyntaxException {
-        checkProgram();
+        checkProgramDeclaration();
+        checkVariablesDeclaration();
     }
 
     /**
      * Input pattern must be: program identifier;
      */
-    private void checkProgram() throws SyntaxException {
+    private void checkProgramDeclaration() throws SyntaxException {
         if (!token.getName().equals("program")) throw new SyntaxException("program", token);
 
         nextToken();
@@ -47,5 +48,34 @@ public class SyntacticAnalyzer {
 
     private boolean isSemiColon() {
         return token.getName().equals(";");
+    }
+
+    private void checkVariablesDeclaration() throws SyntaxException {
+        if(!token.getName().equals("var")) return;
+
+        nextToken();
+        while (token.getType().equals(IDENTIFIER)) {
+            checkIdentifier();
+
+            nextToken();
+            if (!isColon()) throw new SyntaxException(":", token);
+
+            nextToken();
+            if (!isDataType()) throw new SyntaxException("a data type", token);
+
+            nextToken();
+            if (!isSemiColon()) throw new SyntaxException(";", token);
+
+            nextToken();
+        }
+    }
+
+    private boolean isDataType() {
+        String name = token.getName();
+        return name.equals("integer") || name.equals("real") || name.equals("boolean");
+    }
+
+    private boolean isColon() {
+        return token.getName().equals(":");
     }
 }
