@@ -62,6 +62,13 @@ public class SyntacticAnalyzer {
         nextToken();
         while (isIdentifier()) {
             nextToken();
+
+            // Optionally, could be a list of variables. Example: a, b : integer;
+            if(isComma()) {
+                nextToken();
+                continue;
+            }
+
             if (notColon()) throw new SyntaxException(":", token);
 
             nextToken();
@@ -89,7 +96,6 @@ public class SyntacticAnalyzer {
     private void checkSubprograms() {
         while (token.getName().equals("procedure")) {
             checkSubprogram();
-            checkCompoundCommand();
         }
     }
 
@@ -97,6 +103,12 @@ public class SyntacticAnalyzer {
         if (!token.getName().equals("procedure")) return;
 
         nextToken();
+        checkParameters();
+        // checkVariables();
+        // checkCompoundCommand();
+    }
+
+    private void checkParameters() {
         if (!isIdentifier()) throw new SyntaxException(IDENTIFIER, token);
 
         nextToken();
@@ -139,5 +151,9 @@ public class SyntacticAnalyzer {
 
     private boolean notBegin() {
         return !token.getName().equals("begin");
+    }
+
+    private boolean isComma() {
+        return token.getName().equals(",");
     }
 }
