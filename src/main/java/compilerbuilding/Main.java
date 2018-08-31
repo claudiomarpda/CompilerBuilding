@@ -12,7 +12,7 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        List<Token> tokens = run(0);
+        List<Token> tokens = run(1);
         new SyntacticAnalyzer(tokens).analyze();
     }
 

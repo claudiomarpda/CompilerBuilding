@@ -25,6 +25,7 @@ public class SyntacticAnalyzer {
     public void analyze() throws SyntaxException {
         checkProgramDeclaration();
         checkVariablesDeclaration();
+        checkSubprograms();
     }
 
     /**
@@ -34,7 +35,7 @@ public class SyntacticAnalyzer {
         if (!token.getName().equals("program")) throw new SyntaxException("program", token);
 
         nextToken();
-        checkIdentifier();
+        if (!isIdentifier()) throw new SyntaxException(IDENTIFIER, token);
 
         nextToken();
         if (!isSemiColon()) throw new SyntaxException(";", token);
@@ -42,21 +43,24 @@ public class SyntacticAnalyzer {
         nextToken();
     }
 
-    private void checkIdentifier() throws SyntaxException {
-        if (!token.getType().equals(IDENTIFIER)) throw new SyntaxException(IDENTIFIER, token);
+    private boolean isIdentifier() throws SyntaxException {
+        return token.getType().equals(IDENTIFIER);
     }
 
     private boolean isSemiColon() {
         return token.getName().equals(";");
     }
 
+    /**
+     * Input pattern expected:
+     * <p>
+     * variables declaration list -> variables_declaration_list identifiers_list : type; | identifiers_list : type;
+     */
     private void checkVariablesDeclaration() throws SyntaxException {
-        if(!token.getName().equals("var")) return;
+        if (!token.getName().equals("var")) return;
 
         nextToken();
-        while (token.getType().equals(IDENTIFIER)) {
-            checkIdentifier();
-
+        while (isIdentifier()) {
             nextToken();
             if (!isColon()) throw new SyntaxException(":", token);
 
@@ -77,5 +81,63 @@ public class SyntacticAnalyzer {
 
     private boolean isColon() {
         return token.getName().equals(":");
+    }
+
+    /**
+     * subprogram declarations -> subprogram declarations subprogram declaration | E
+     */
+    private void checkSubprograms() {
+        while (token.getName().equals("procedure")) {
+            checkSubprogram();
+            checkCompoundCommand();
+        }
+    }
+
+    private void checkSubprogram() {
+        if (!token.getName().equals("procedure")) return;
+
+        nextToken();
+        if (!isIdentifier()) throw new SyntaxException(IDENTIFIER, token);
+
+        nextToken();
+        if (!isOpenParentheses()) throw new SyntaxException("(", token);
+
+        nextToken();
+        while (isIdentifier()) {
+
+            nextToken();
+            if (!isColon()) throw new SyntaxException(":", token);
+
+            nextToken();
+            if (!isDataType()) throw new SyntaxException("a data type", token);
+
+            nextToken();
+            if (!isSemiColon()) break;
+
+            nextToken();
+        }
+
+        if (!isClosedParentheses()) throw new SyntaxException(")", token);
+
+        nextToken();
+        if (!isSemiColon()) throw new SyntaxException(";", token);
+
+        nextToken();
+    }
+
+    private boolean isOpenParentheses() {
+        return token.getName().equals("(");
+    }
+
+    private boolean isClosedParentheses() {
+        return token.getName().equals(")");
+    }
+
+    private void checkCompoundCommand() {
+        if (!isBegin()) throw new SyntaxException("begin", token);
+    }
+
+    private boolean isBegin() {
+        return token.getName().equals("begin");
     }
 }
