@@ -1,7 +1,7 @@
-package compilerbuilding.syntax;
+package compilerbuilding.syntactic;
 
 import compilerbuilding.lexical.Token;
-import compilerbuilding.syntax.exception.SyntaxException;
+import compilerbuilding.syntactic.exception.SyntaxException;
 
 import java.util.List;
 

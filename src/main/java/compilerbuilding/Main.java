@@ -3,8 +3,8 @@ package compilerbuilding;
 
 import compilerbuilding.lexical.LexicalAnalyzer;
 import compilerbuilding.lexical.Token;
-import compilerbuilding.syntax.SyntacticAnalyzer;
-import compilerbuilding.syntax.exception.SyntaxException;
+import compilerbuilding.syntactic.SyntacticAnalyzer;
+import compilerbuilding.syntactic.exception.SyntaxException;
 import compilerbuilding.util.FileUtil;
 
 import java.io.IOException;

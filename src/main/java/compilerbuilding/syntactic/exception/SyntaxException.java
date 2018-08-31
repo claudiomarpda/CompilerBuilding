@@ -1,4 +1,4 @@
-package compilerbuilding.syntax.exception;
+package compilerbuilding.syntactic.exception;
 
 import compilerbuilding.lexical.Token;
 
