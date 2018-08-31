@@ -23,22 +23,22 @@ public class SyntacticAnalyzer {
     }
 
     public void analyze() throws SyntaxException {
-        checkProgramDeclaration();
-        checkVariablesDeclaration();
+        checkProgram();
+        checkVariables();
         checkSubprograms();
     }
 
     /**
      * Input pattern must be: program identifier;
      */
-    private void checkProgramDeclaration() throws SyntaxException {
+    private void checkProgram() throws SyntaxException {
         if (!token.getName().equals("program")) throw new SyntaxException("program", token);
 
         nextToken();
         if (!isIdentifier()) throw new SyntaxException(IDENTIFIER, token);
 
         nextToken();
-        if (!isSemiColon()) throw new SyntaxException(";", token);
+        if (notSemiColon()) throw new SyntaxException(";", token);
 
         nextToken();
     }
@@ -47,8 +47,8 @@ public class SyntacticAnalyzer {
         return token.getType().equals(IDENTIFIER);
     }
 
-    private boolean isSemiColon() {
-        return token.getName().equals(";");
+    private boolean notSemiColon() {
+        return !token.getName().equals(";");
     }
 
     /**
@@ -56,31 +56,31 @@ public class SyntacticAnalyzer {
      * <p>
      * variables declaration list -> variables_declaration_list identifiers_list : type; | identifiers_list : type;
      */
-    private void checkVariablesDeclaration() throws SyntaxException {
+    private void checkVariables() throws SyntaxException {
         if (!token.getName().equals("var")) return;
 
         nextToken();
         while (isIdentifier()) {
             nextToken();
-            if (!isColon()) throw new SyntaxException(":", token);
+            if (notColon()) throw new SyntaxException(":", token);
 
             nextToken();
-            if (!isDataType()) throw new SyntaxException("a data type", token);
+            if (notDataType()) throw new SyntaxException("a data type", token);
 
             nextToken();
-            if (!isSemiColon()) throw new SyntaxException(";", token);
+            if (notSemiColon()) throw new SyntaxException(";", token);
 
             nextToken();
         }
     }
 
-    private boolean isDataType() {
+    private boolean notDataType() {
         String name = token.getName();
-        return name.equals("integer") || name.equals("real") || name.equals("boolean");
+        return !(name.equals("integer") || name.equals("real") || name.equals("boolean"));
     }
 
-    private boolean isColon() {
-        return token.getName().equals(":");
+    private boolean notColon() {
+        return !token.getName().equals(":");
     }
 
     /**
@@ -100,44 +100,44 @@ public class SyntacticAnalyzer {
         if (!isIdentifier()) throw new SyntaxException(IDENTIFIER, token);
 
         nextToken();
-        if (!isOpenParentheses()) throw new SyntaxException("(", token);
+        if (notOpenParentheses()) throw new SyntaxException("(", token);
 
         nextToken();
         while (isIdentifier()) {
 
             nextToken();
-            if (!isColon()) throw new SyntaxException(":", token);
+            if (notColon()) throw new SyntaxException(":", token);
 
             nextToken();
-            if (!isDataType()) throw new SyntaxException("a data type", token);
+            if (notDataType()) throw new SyntaxException("a data type", token);
 
             nextToken();
-            if (!isSemiColon()) break;
+            if (notSemiColon()) break;
 
             nextToken();
         }
 
-        if (!isClosedParentheses()) throw new SyntaxException(")", token);
+        if (notClosedParentheses()) throw new SyntaxException(")", token);
 
         nextToken();
-        if (!isSemiColon()) throw new SyntaxException(";", token);
+        if (notSemiColon()) throw new SyntaxException(";", token);
 
         nextToken();
     }
 
-    private boolean isOpenParentheses() {
-        return token.getName().equals("(");
+    private boolean notOpenParentheses() {
+        return !token.getName().equals("(");
     }
 
-    private boolean isClosedParentheses() {
-        return token.getName().equals(")");
+    private boolean notClosedParentheses() {
+        return !token.getName().equals(")");
     }
 
     private void checkCompoundCommand() {
-        if (!isBegin()) throw new SyntaxException("begin", token);
+        if (notBegin()) throw new SyntaxException("begin", token);
     }
 
-    private boolean isBegin() {
-        return token.getName().equals("begin");
+    private boolean notBegin() {
+        return !token.getName().equals("begin");
     }
 }
