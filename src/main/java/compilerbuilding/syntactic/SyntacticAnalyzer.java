@@ -64,7 +64,7 @@ public class SyntacticAnalyzer {
             nextToken();
 
             // Optionally, could be a list of variables. Example: a, b : integer;
-            if(isComma()) {
+            if (isComma()) {
                 nextToken();
                 continue;
             }
@@ -104,8 +104,8 @@ public class SyntacticAnalyzer {
 
         nextToken();
         checkParameters();
-        // checkVariables();
-        // checkCompoundCommand();
+        checkVariables();
+        checkCompoundCommand();
     }
 
     private void checkParameters() {
@@ -147,13 +147,82 @@ public class SyntacticAnalyzer {
 
     private void checkCompoundCommand() {
         if (notBegin()) throw new SyntaxException("begin", token);
+        nextToken();
+
+        while (notEnd()) {
+            checkCommands();
+        }
+        nextToken();
     }
 
     private boolean notBegin() {
         return !token.getName().equals("begin");
     }
 
+    private boolean notEnd() {
+        return !token.getName().equals("end");
+    }
+
     private boolean isComma() {
         return token.getName().equals(",");
+    }
+
+    private void checkCommands() {
+        checkCommand();
+        if (notSemiColon()) throw new SyntaxException(";", token);
+        nextToken();
+    }
+
+    private void checkCommand() {
+        // Variable or procedure call
+        if (isIdentifier()) {
+            nextToken();
+            if (typeMatches(ATTRIBUTION)) {
+                nextToken();
+                checkExpression();
+            }
+            // else if procedure call
+        }
+        // else if compound command
+        // else if [if then]
+        // else if [while do]
+
+    }
+
+    private void checkExpression() {
+        checkSimpleExpression();
+        if (isRelationalOperator()) {
+            nextToken();
+            checkSimpleExpression();
+        }
+    }
+
+    private void checkSimpleExpression() {
+        checkTerm();
+        // | signal term
+        // | simple_exp add_op term
+    }
+
+    private void checkTerm() {
+        checkFactor();
+//        checkTerm();
+    }
+
+    private void checkFactor() {
+        if(typeMatches(IDENTIFIER) || typeMatches(INTEGER) || typeMatches(REAL)) {
+            nextToken();
+        }
+    }
+
+    private boolean isRelationalOperator() {
+        return token.getType().equals(RELATIONAL_OPERATOR);
+    }
+
+    private boolean nameMatches(String name) {
+        return token.getName().equals(name);
+    }
+
+    private boolean typeMatches(String type) {
+        return token.getType().equals(type);
     }
 }

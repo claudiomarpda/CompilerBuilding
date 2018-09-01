@@ -17,7 +17,7 @@ public class Main {
         for (int i = 0; i <= 6; i++) {
             if(i == 3) continue;
 
-            List<Token> tokens = run(i);
+            List<Token> tokens = run(6);
             try {
                 new SyntacticAnalyzer(tokens).analyze();
             } catch (SyntaxException e) {
