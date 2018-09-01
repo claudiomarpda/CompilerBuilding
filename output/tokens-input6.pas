@@ -41,10 +41,26 @@
                    valor1                Identifier                        12
                        :=               Attribution                        12
                        10                   Integer                        12
+                        *   Multiplicative Operator                        12
+                        1                   Integer                        12
+                        *   Multiplicative Operator                        12
+                        2                   Integer                        12
+                        /   Multiplicative Operator                        12
+                        2                   Integer                        12
                         ;                 Delimiter                        12
-                  valor_2                Identifier                        13
+                   valor1                Identifier                        13
                        :=               Attribution                        13
-                      2.5                      Real                        13
+                       10                   Integer                        13
+                        +         Additive Operator                        13
+                        1                   Integer                        13
+                        *   Multiplicative Operator                        13
+                        2                   Integer                        13
+                        -         Additive Operator                        13
+                        1                   Integer                        13
                         ;                 Delimiter                        13
-                      end                   Keyword                        14
-                        .                 Delimiter                        14
+                  valor_2                Identifier                        14
+                       :=               Attribution                        14
+                      2.5                      Real                        14
+                        ;                 Delimiter                        14
+                      end                   Keyword                        15
+                        .                 Delimiter                        15

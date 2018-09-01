@@ -136,20 +136,22 @@ public class SyntacticAnalyzer {
         if (!nameMatches("begin")) throw new SyntaxException("begin", token);
         nextToken();
 
-        while (nameMatches("end")) {
+        // command; | command_list
+        while (!nameMatches("end")) {
             checkCommands();
         }
         nextToken();
     }
 
     private void checkCommands() {
+        // command;
         checkCommand();
         if (!nameMatches(";")) throw new SyntaxException(";", token);
         nextToken();
     }
 
     private void checkCommand() {
-        // Variable or procedure call
+        // variable := expression
         if (typeMatches(IDENTIFIER)) {
             nextToken();
             if (typeMatches(ATTRIBUTION)) {
@@ -173,18 +175,45 @@ public class SyntacticAnalyzer {
     }
 
     private void checkSimpleExpression() {
+        // term
         checkTerm();
+
         // | signal term
-        // | simple_exp add_op term
+        if(nameMatches("+") || nameMatches("-")) {
+            nextToken();
+            checkTerm();
+        }
+
+        // | term add_op simple_exp
+        if(typeMatches(ADDITIVE_OPERATOR)) {
+            nextToken();
+            checkSimpleExpression();
+        }
     }
 
     private void checkTerm() {
+        // factor
         checkFactor();
-//        checkTerm();
+
+        // | factor multiplicative_op term
+        if(typeMatches(MULTIPLICATIVE_OPERATOR)) {
+            nextToken();
+            checkFactor();
+            checkTerm();
+        }
+        // term
+        //checkTerm();
     }
 
     private void checkFactor() {
         if(typeMatches(IDENTIFIER) || typeMatches(INTEGER) || typeMatches(REAL)) {
+            nextToken();
+        }
+        else if(nameMatches("(")) {
+            nextToken();
+            checkExpression();
+
+            if(!nameMatches(")")) throw new SyntaxException(")", token);
             nextToken();
         }
     }

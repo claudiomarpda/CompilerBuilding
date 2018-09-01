@@ -48,7 +48,6 @@
                         )                 Delimiter                        11
                         ;                 Delimiter                        11
                       end                   Keyword                        12
-                        ;                 Delimiter                        12
                 procedure                   Keyword                        14
                 calcula_2                Identifier                        14
                         (                 Delimiter                        14
@@ -73,7 +72,6 @@
                         )                 Delimiter                        16
                         ;                 Delimiter                        16
                       end                   Keyword                        17
-                        ;                 Delimiter                        17
                     begin                   Keyword                        19
                    valor1                Identifier                        20
                        :=               Attribution                        20
@@ -106,7 +104,6 @@
                        30                   Integer                        26
                         ;                 Delimiter                        26
                       end                   Keyword                        27
-                        ;                 Delimiter                        27
                        if                   Keyword                        29
                         3                   Integer                        29
                         >       Relational Operator                        29
@@ -127,7 +124,6 @@
                         1                   Integer                        34
                         ;                 Delimiter                        34
                       end                   Keyword                        35
-                        ;                 Delimiter                        35
                     while                   Keyword                        37
                         3                   Integer                        37
                         >       Relational Operator                        37
@@ -141,6 +137,5 @@
                         3                   Integer                        39
                         ;                 Delimiter                        39
                       end                   Keyword                        40
-                        ;                 Delimiter                        40
                       end                   Keyword                        41
                         .                 Delimiter                        41

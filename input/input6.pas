@@ -9,6 +9,7 @@ d : integer;
 e : real;
 
 begin
-valor1 := 10;
+valor1 := 10 * 1 * 2 / 2;
+valor1 := 10 + 1 * 2 - 1;
 valor_2 := 2.5;
 end.

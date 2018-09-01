@@ -9,12 +9,12 @@ var
 procedure calcula_percentual (n1:real; per1:real); 
 begin 
     per1 := n1 * (21/100); 
-end; 
+end
 
 procedure calcula_2 (n1:integer; per1:real); 
 begin 
     per1 := n1 * (54*33); 
-end; 
+end
 
 begin
 	valor1 := 10;
@@ -24,7 +24,7 @@ begin
 	if 3 > 4 then
 	begin
 		valor := 30;
-	end;
+	end
 
 	if 3 > 4
 	then begin
@@ -32,11 +32,11 @@ begin
 	end
 	else begin
 		valor2 := valor2+1;
-	end;
+	end
 
 	while 3 > 2 do
 	begin
 		valor3 := 4 + 3;
-	end;
+	end
 end.
 

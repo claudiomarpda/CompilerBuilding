@@ -17,11 +17,11 @@ public class Main {
         for (int i = 0; i <= 6; i++) {
             if(i == 3) continue;
 
-            List<Token> tokens = run(6);
+            List<Token> tokens = run(i);
             try {
                 new SyntacticAnalyzer(tokens).analyze();
             } catch (SyntaxException e) {
-                System.out.println("Syntax error in program of index " + i);
+                System.err.println("Syntax error in program of index " + i);
                 e.printStackTrace();
             }
         }
