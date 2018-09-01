@@ -56,9 +56,9 @@ public final class LexicalAnalyzer {
             tokens.add(new Token(token.substring(0, 1), UNDEFINED, lineIndex));
 
         } else if (!commentOpen && !containsCommentSymbol(token) && checkTokenWithoutFirstAndLastCharacters(token)) {
+            tokens.add(new Token(token.substring(0, 1), UNDEFINED, lineIndex));
             tokens.add(new Token(token.substring(1, token.length() - 1), UNDEFINED, lineIndex));
             tokens.add(new Token(token.substring(token.length() - 1), UNDEFINED, lineIndex));
-            tokens.add(new Token(token.substring(0, 1), UNDEFINED, lineIndex));
 
         } else {
             for (String s : checkTokenCharacters(token)) {
