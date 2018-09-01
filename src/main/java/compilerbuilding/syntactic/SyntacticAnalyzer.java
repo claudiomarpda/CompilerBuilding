@@ -28,27 +28,27 @@ public class SyntacticAnalyzer {
         checkSubprograms();
     }
 
+    private boolean nameMatches(String name) {
+        return token.getName().equals(name);
+    }
+
+    private boolean typeMatches(String type) {
+        return token.getType().equals(type);
+    }
+
     /**
      * Input pattern must be: program identifier;
      */
     private void checkProgram() throws SyntaxException {
-        if (!token.getName().equals("program")) throw new SyntaxException("program", token);
+        if (!nameMatches("program")) throw new SyntaxException("program", token);
 
         nextToken();
-        if (!isIdentifier()) throw new SyntaxException(IDENTIFIER, token);
+        if (!typeMatches(IDENTIFIER)) throw new SyntaxException(IDENTIFIER, token);
 
         nextToken();
-        if (notSemiColon()) throw new SyntaxException(";", token);
+        if (!nameMatches(";")) throw new SyntaxException(";", token);
 
         nextToken();
-    }
-
-    private boolean isIdentifier() throws SyntaxException {
-        return token.getType().equals(IDENTIFIER);
-    }
-
-    private boolean notSemiColon() {
-        return !token.getName().equals(";");
     }
 
     /**
@@ -60,34 +60,29 @@ public class SyntacticAnalyzer {
         if (!token.getName().equals("var")) return;
 
         nextToken();
-        while (isIdentifier()) {
+        while (typeMatches(IDENTIFIER)) {
             nextToken();
 
             // Optionally, could be a list of variables. Example: a, b : integer;
-            if (isComma()) {
+            if (nameMatches(",")) {
                 nextToken();
                 continue;
             }
 
-            if (notColon()) throw new SyntaxException(":", token);
+            if (!nameMatches(":")) throw new SyntaxException(":", token);
 
             nextToken();
             if (notDataType()) throw new SyntaxException("a data type", token);
 
             nextToken();
-            if (notSemiColon()) throw new SyntaxException(";", token);
+            if (!nameMatches(";")) throw new SyntaxException(";", token);
 
             nextToken();
         }
     }
 
     private boolean notDataType() {
-        String name = token.getName();
-        return !(name.equals("integer") || name.equals("real") || name.equals("boolean"));
-    }
-
-    private boolean notColon() {
-        return !token.getName().equals(":");
+        return !(nameMatches("integer") || nameMatches("real") || nameMatches("boolean"));
     }
 
     /**
@@ -100,7 +95,7 @@ public class SyntacticAnalyzer {
     }
 
     private void checkSubprogram() {
-        if (!token.getName().equals("procedure")) return;
+        if (!nameMatches("procedure")) return;
 
         nextToken();
         checkParameters();
@@ -109,73 +104,53 @@ public class SyntacticAnalyzer {
     }
 
     private void checkParameters() {
-        if (!isIdentifier()) throw new SyntaxException(IDENTIFIER, token);
+        if (!typeMatches(IDENTIFIER)) throw new SyntaxException(IDENTIFIER, token);
 
         nextToken();
-        if (notOpenParentheses()) throw new SyntaxException("(", token);
+        if (!nameMatches("(")) throw new SyntaxException("(", token);
 
         nextToken();
-        while (isIdentifier()) {
+        while (typeMatches(IDENTIFIER)) {
 
             nextToken();
-            if (notColon()) throw new SyntaxException(":", token);
+            if (!nameMatches(":")) throw new SyntaxException(":", token);
 
             nextToken();
             if (notDataType()) throw new SyntaxException("a data type", token);
 
             nextToken();
-            if (notSemiColon()) break;
+            if (!nameMatches(";")) break;
 
             nextToken();
         }
 
-        if (notClosedParentheses()) throw new SyntaxException(")", token);
+        if (!nameMatches(")")) throw new SyntaxException(")", token);
 
         nextToken();
-        if (notSemiColon()) throw new SyntaxException(";", token);
+        if (!nameMatches(";")) throw new SyntaxException(";", token);
 
         nextToken();
-    }
-
-    private boolean notOpenParentheses() {
-        return !token.getName().equals("(");
-    }
-
-    private boolean notClosedParentheses() {
-        return !token.getName().equals(")");
     }
 
     private void checkCompoundCommand() {
-        if (notBegin()) throw new SyntaxException("begin", token);
+        if (!nameMatches("begin")) throw new SyntaxException("begin", token);
         nextToken();
 
-        while (notEnd()) {
+        while (nameMatches("end")) {
             checkCommands();
         }
         nextToken();
     }
 
-    private boolean notBegin() {
-        return !token.getName().equals("begin");
-    }
-
-    private boolean notEnd() {
-        return !token.getName().equals("end");
-    }
-
-    private boolean isComma() {
-        return token.getName().equals(",");
-    }
-
     private void checkCommands() {
         checkCommand();
-        if (notSemiColon()) throw new SyntaxException(";", token);
+        if (!nameMatches(";")) throw new SyntaxException(";", token);
         nextToken();
     }
 
     private void checkCommand() {
         // Variable or procedure call
-        if (isIdentifier()) {
+        if (typeMatches(IDENTIFIER)) {
             nextToken();
             if (typeMatches(ATTRIBUTION)) {
                 nextToken();
@@ -191,7 +166,7 @@ public class SyntacticAnalyzer {
 
     private void checkExpression() {
         checkSimpleExpression();
-        if (isRelationalOperator()) {
+        if (typeMatches(RELATIONAL_OPERATOR)) {
             nextToken();
             checkSimpleExpression();
         }
@@ -212,17 +187,5 @@ public class SyntacticAnalyzer {
         if(typeMatches(IDENTIFIER) || typeMatches(INTEGER) || typeMatches(REAL)) {
             nextToken();
         }
-    }
-
-    private boolean isRelationalOperator() {
-        return token.getType().equals(RELATIONAL_OPERATOR);
-    }
-
-    private boolean nameMatches(String name) {
-        return token.getName().equals(name);
-    }
-
-    private boolean typeMatches(String type) {
-        return token.getType().equals(type);
     }
 }
