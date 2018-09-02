@@ -13,54 +13,134 @@
                      real                   Keyword                         4
                         ;                 Delimiter                         4
                 procedure                   Keyword                         6
-             my_procedure                Identifier                         6
+                      pro                Identifier                         6
                         (                 Delimiter                         6
-                        a                Identifier                         6
-                        :                 Delimiter                         6
-                  integer                   Keyword                         6
-                        ;                 Delimiter                         6
-                        b                Identifier                         6
-                        :                 Delimiter                         6
-                     real                   Keyword                         6
-                        ;                 Delimiter                         6
-                        c                Identifier                         6
-                        :                 Delimiter                         6
-                  boolean                   Keyword                         6
                         )                 Delimiter                         6
                         ;                 Delimiter                         6
-                      var                   Keyword                         7
-                        d                Identifier                         8
-                        :                 Delimiter                         8
-                  integer                   Keyword                         8
-                        ;                 Delimiter                         8
-                        e                Identifier                         9
-                        :                 Delimiter                         9
-                     real                   Keyword                         9
-                        ;                 Delimiter                         9
+                    begin                   Keyword                         7
+                      end                   Keyword                         8
+                procedure                   Keyword                        10
+                     pro1                Identifier                        10
+                        (                 Delimiter                        10
+                        a                Identifier                        10
+                        :                 Delimiter                        10
+                  integer                   Keyword                        10
+                        )                 Delimiter                        10
+                        ;                 Delimiter                        10
                     begin                   Keyword                        11
-                   valor1                Identifier                        12
-                       :=               Attribution                        12
-                       10                   Integer                        12
-                        *   Multiplicative Operator                        12
-                        1                   Integer                        12
-                        *   Multiplicative Operator                        12
-                        2                   Integer                        12
-                        /   Multiplicative Operator                        12
-                        2                   Integer                        12
-                        ;                 Delimiter                        12
-                   valor1                Identifier                        13
-                       :=               Attribution                        13
-                       10                   Integer                        13
-                        +         Additive Operator                        13
-                        1                   Integer                        13
-                        *   Multiplicative Operator                        13
-                        2                   Integer                        13
-                        -         Additive Operator                        13
-                        1                   Integer                        13
-                        ;                 Delimiter                        13
-                  valor_2                Identifier                        14
-                       :=               Attribution                        14
-                      2.5                      Real                        14
+                      end                   Keyword                        12
+                procedure                   Keyword                        14
+                     pro2                Identifier                        14
+                        (                 Delimiter                        14
+                        a                Identifier                        14
+                        :                 Delimiter                        14
+                  integer                   Keyword                        14
                         ;                 Delimiter                        14
-                      end                   Keyword                        15
-                        .                 Delimiter                        15
+                        b                Identifier                        14
+                        :                 Delimiter                        14
+                     real                   Keyword                        14
+                        )                 Delimiter                        14
+                        ;                 Delimiter                        14
+                    begin                   Keyword                        15
+                  writeln                Identifier                        16
+                        (                 Delimiter                        16
+                        a                Identifier                        16
+                        )                 Delimiter                        16
+                        ;                 Delimiter                        16
+                  writeln                Identifier                        17
+                        (                 Delimiter                        17
+                        b                Identifier                        17
+                        )                 Delimiter                        17
+                        ;                 Delimiter                        17
+                      end                   Keyword                        18
+                procedure                   Keyword                        20
+                     pro3                Identifier                        20
+                        (                 Delimiter                        20
+                        a                Identifier                        20
+                        :                 Delimiter                        20
+                  integer                   Keyword                        20
+                        ;                 Delimiter                        20
+                        b                Identifier                        20
+                        :                 Delimiter                        20
+                     real                   Keyword                        20
+                        ;                 Delimiter                        20
+                        c                Identifier                        20
+                        :                 Delimiter                        20
+                  boolean                   Keyword                        20
+                        )                 Delimiter                        20
+                        ;                 Delimiter                        20
+                      var                   Keyword                        21
+                        d                Identifier                        22
+                        :                 Delimiter                        22
+                  integer                   Keyword                        22
+                        ;                 Delimiter                        22
+                        e                Identifier                        23
+                        :                 Delimiter                        23
+                     real                   Keyword                        23
+                        ;                 Delimiter                        23
+                      boo                Identifier                        24
+                        :                 Delimiter                        24
+                  boolean                   Keyword                        24
+                        ;                 Delimiter                        24
+                    begin                   Keyword                        26
+                   valor1                Identifier                        27
+                       :=               Attribution                        27
+                       10                   Integer                        27
+                        *   Multiplicative Operator                        27
+                        (                 Delimiter                        27
+                        1                   Integer                        27
+                        *   Multiplicative Operator                        27
+                        2                   Integer                        27
+                        )                 Delimiter                        27
+                        /   Multiplicative Operator                        27
+                        2                   Integer                        27
+                        ;                 Delimiter                        27
+                   valor1                Identifier                        28
+                       :=               Attribution                        28
+                       10                   Integer                        28
+                        +         Additive Operator                        28
+                        1                   Integer                        28
+                        *   Multiplicative Operator                        28
+                        2                   Integer                        28
+                        -         Additive Operator                        28
+                        1                   Integer                        28
+                        ;                 Delimiter                        28
+                  valor_2                Identifier                        29
+                       :=               Attribution                        29
+                      2.5                      Real                        29
+                        ;                 Delimiter                        29
+                      boo                Identifier                        30
+                       :=               Attribution                        30
+                    false                Identifier                        30
+                        ;                 Delimiter                        30
+                      boo                Identifier                        31
+                       :=               Attribution                        31
+                     true                Identifier                        31
+                        ;                 Delimiter                        31
+                      pro                Identifier                        32
+                        (                 Delimiter                        32
+                        )                 Delimiter                        32
+                        ;                 Delimiter                        32
+                     pro1                Identifier                        33
+                        (                 Delimiter                        33
+                        1                   Integer                        33
+                        )                 Delimiter                        33
+                        ;                 Delimiter                        33
+                     pro2                Identifier                        34
+                        (                 Delimiter                        34
+                        1                   Integer                        34
+                        ,                 Delimiter                        34
+                        2                   Integer                        34
+                        )                 Delimiter                        34
+                        ;                 Delimiter                        34
+                     pro3                Identifier                        35
+                        (                 Delimiter                        35
+                        1                   Integer                        35
+                        ,                 Delimiter                        35
+                        2                   Integer                        35
+                        ,                 Delimiter                        35
+                     true                Identifier                        35
+                        )                 Delimiter                        35
+                        ;                 Delimiter                        35
+                      end                   Keyword                        36
+                        .                 Delimiter                        36

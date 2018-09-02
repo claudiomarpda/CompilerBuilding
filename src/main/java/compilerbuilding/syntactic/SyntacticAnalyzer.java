@@ -136,7 +136,7 @@ public class SyntacticAnalyzer {
         if (!nameMatches("begin")) throw new SyntaxException("begin", token);
         nextToken();
 
-        // command; | command_list
+        // command; command_list
         while (!nameMatches("end")) {
             checkCommands();
         }
@@ -158,9 +158,18 @@ public class SyntacticAnalyzer {
                 nextToken();
                 checkExpression();
             }
-            // else if procedure call
+            // | procedure call
+            else if (nameMatches("(")) {
+                nextToken();
+                checkExpression();
+                while (nameMatches(",")) {
+                    nextToken();
+                    checkExpression();
+                }
+                if(!nameMatches(")")) throw new SyntaxException(")", token);
+                nextToken();
+            }
         }
-        // else if compound command
         // else if [if then]
         // else if [while do]
 
@@ -179,13 +188,14 @@ public class SyntacticAnalyzer {
         checkTerm();
 
         // | signal term
-        if(nameMatches("+") || nameMatches("-")) {
+        if (nameMatches("+") || nameMatches("-")) {
             nextToken();
             checkTerm();
         }
 
         // | term add_op simple_exp
-        if(typeMatches(ADDITIVE_OPERATOR)) {
+        // add_op -> + | - | or
+        if (typeMatches(ADDITIVE_OPERATOR) || typeMatches("or")) {
             nextToken();
             checkSimpleExpression();
         }
@@ -196,24 +206,30 @@ public class SyntacticAnalyzer {
         checkFactor();
 
         // | factor multiplicative_op term
-        if(typeMatches(MULTIPLICATIVE_OPERATOR)) {
+        // multi_op -> * | / | and
+        if (typeMatches(MULTIPLICATIVE_OPERATOR) || typeMatches("and")) {
             nextToken();
             checkFactor();
             checkTerm();
         }
-        // term
-        //checkTerm();
     }
 
     private void checkFactor() {
-        if(typeMatches(IDENTIFIER) || typeMatches(INTEGER) || typeMatches(REAL)) {
+        // id | integer | real
+        if (typeMatches(IDENTIFIER) || typeMatches(INTEGER) || typeMatches(REAL)) {
             nextToken();
         }
-        else if(nameMatches("(")) {
+        // | (expression)
+        else if (nameMatches("(")) {
             nextToken();
             checkExpression();
 
-            if(!nameMatches(")")) throw new SyntaxException(")", token);
+            if (!nameMatches(")")) throw new SyntaxException(")", token);
+            nextToken();
+        }
+        // | true
+        // | false
+        else if (nameMatches("true") || nameMatches("false")) {
             nextToken();
         }
     }
