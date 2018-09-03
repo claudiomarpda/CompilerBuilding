@@ -241,7 +241,7 @@ public class SyntacticAnalyzer {
 
         // | term additive_op simple_exp
         // additive_op -> + | - | or
-        if (typeMatches(ADDITIVE_OPERATOR) || typeMatches("or")) {
+        if (typeMatches(ADDITIVE_OPERATOR) || nameMatches("or")) {
             nextToken();
             checkSimpleExpression();
         }
@@ -256,7 +256,7 @@ public class SyntacticAnalyzer {
 
         // | factor multiplicative_op term
         // multiplicative_op -> * | / | and
-        if (typeMatches(MULTIPLICATIVE_OPERATOR) || typeMatches("and")) {
+        if (typeMatches(MULTIPLICATIVE_OPERATOR) || nameMatches("and")) {
             nextToken();
             checkFactor();
             checkTerm();
@@ -285,5 +285,9 @@ public class SyntacticAnalyzer {
             nextToken();
         }
         // | not factor
+        else if (nameMatches("not")) {
+            nextToken();
+            checkFactor();
+        }
     }
 }

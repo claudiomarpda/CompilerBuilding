@@ -29,6 +29,11 @@ begin
     valor_2 := 2.5;
     boo := false;
     boo := true;
+    boo := not boo;
+    boo := true or false;
+    boo := not true or not false;
+    boo := false and false;
+    boo := true or true;
     pro();
     pro1(1);
     pro2(1, 2);
