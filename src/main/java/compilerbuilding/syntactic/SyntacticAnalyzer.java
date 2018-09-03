@@ -33,7 +33,7 @@ public class SyntacticAnalyzer {
     }
 
     /**
-     * program -> program id; variable_declarations subprogram_declarations compound_command .
+     * program -> program id; variables_declarations subprograms_declarations compound_command .
      *
      * @throws SyntaxException with analysis info
      */
@@ -67,7 +67,7 @@ public class SyntacticAnalyzer {
     }
 
     /**
-     * variables declaration list -> variables_declaration_list identifiers_list : type; | identifiers_list : type;
+     * variables_declarations_list -> variables_declarations_list identifiers_list : type; | identifiers_list : type;
      */
     private void checkVariables() {
         if (!token.getName().equals("var")) return;
@@ -99,7 +99,7 @@ public class SyntacticAnalyzer {
     }
 
     /**
-     * subprogram declarations -> subprogram declarations subprogram declaration | E
+     * subprograms_declarations -> subprograms_declarations subprogram_declaration | E
      */
     private void checkSubprograms() {
         while (token.getName().equals("procedure")) {
@@ -108,11 +108,7 @@ public class SyntacticAnalyzer {
     }
 
     /**
-     * subprogram declaration ->
-     * <p>
-     * procedure id arguments;
-     * variable_declarations
-     * compound_command
+     * subprogram declaration -> procedure id arguments; variables_declarations compound_command
      */
     private void checkSubprogram() {
         if (!nameMatches("procedure")) return;
@@ -126,7 +122,7 @@ public class SyntacticAnalyzer {
     /**
      * parameters -> (parameters_list) | E
      * <p>
-     * parameters_list -> identifier_list : type | parameters_list; identifier_list : type
+     * parameters_list -> identifiers_list : type | parameters_list; identifiers_list : type
      */
     private void checkParameters() {
         if (!typeMatches(IDENTIFIER)) throw new SyntaxException(IDENTIFIER, token);
@@ -160,7 +156,7 @@ public class SyntacticAnalyzer {
     /**
      * compound_command -> begin optional_commands end
      * <p>
-     * optional_command -> command_list | E
+     * optional_command -> commands_list | E
      */
     private void checkCompoundCommand() {
         if (!nameMatches("begin")) throw new SyntaxException("begin", token);
@@ -174,7 +170,7 @@ public class SyntacticAnalyzer {
     }
 
     /**
-     * command_list -> command | command_list; command
+     * commands_list -> command | commands_list; command
      */
     private void checkCommands() {
         // command;
@@ -185,7 +181,7 @@ public class SyntacticAnalyzer {
 
     /**
      * command -> variable := expression | procedure_call | compound_command
-     * | if expression then command esle_part
+     * | if expression then command else_part
      * | while expression do command
      * <p>
      * else_part -> else command | E
