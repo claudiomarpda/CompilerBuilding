@@ -7,10 +7,20 @@ import java.util.List;
 
 import static compilerbuilding.lexical.TokenType.*;
 
+/**
+ * Implements a Context Free Grammar for an syntactical analyzer.
+ * Use the 'analyze' method to run the syntax analysis.
+ * If something goes wrong, a SyntaxException is thrown.
+ */
 public class SyntacticAnalyzer {
 
+    // Tokens obtained from lexical analyzer
     private List<Token> tokens;
+
+    // Current token
     private Token token;
+
+    // Index of the current token
     private int current;
 
     public SyntacticAnalyzer(List<Token> tokens) {
@@ -22,6 +32,11 @@ public class SyntacticAnalyzer {
         token = tokens.get(++current);
     }
 
+    /**
+     * program -> program id; variable_declarations subprogram_declarations compound_command .
+     *
+     * @throws SyntaxException with analysis info
+     */
     public void analyze() throws SyntaxException {
         checkProgram();
         checkVariables();
@@ -37,9 +52,9 @@ public class SyntacticAnalyzer {
     }
 
     /**
-     * Input pattern must be: program identifier;
+     * program id;
      */
-    private void checkProgram() throws SyntaxException {
+    private void checkProgram() {
         if (!nameMatches("program")) throw new SyntaxException("program", token);
 
         nextToken();
@@ -52,11 +67,9 @@ public class SyntacticAnalyzer {
     }
 
     /**
-     * Input pattern expected:
-     * <p>
      * variables declaration list -> variables_declaration_list identifiers_list : type; | identifiers_list : type;
      */
-    private void checkVariables() throws SyntaxException {
+    private void checkVariables() {
         if (!token.getName().equals("var")) return;
 
         nextToken();
@@ -94,6 +107,13 @@ public class SyntacticAnalyzer {
         }
     }
 
+    /**
+     * subprogram declaration ->
+     * <p>
+     * procedure id arguments;
+     * variable_declarations
+     * compound_command
+     */
     private void checkSubprogram() {
         if (!nameMatches("procedure")) return;
 
@@ -103,6 +123,11 @@ public class SyntacticAnalyzer {
         checkCompoundCommand();
     }
 
+    /**
+     * parameters -> (parameters_list) | E
+     * <p>
+     * parameters_list -> identifier_list : type | parameters_list; identifier_list : type
+     */
     private void checkParameters() {
         if (!typeMatches(IDENTIFIER)) throw new SyntaxException(IDENTIFIER, token);
 
@@ -132,6 +157,11 @@ public class SyntacticAnalyzer {
         nextToken();
     }
 
+    /**
+     * compound_command -> begin optional_commands end
+     * <p>
+     * optional_command -> command_list | E
+     */
     private void checkCompoundCommand() {
         if (!nameMatches("begin")) throw new SyntaxException("begin", token);
         nextToken();
@@ -143,6 +173,9 @@ public class SyntacticAnalyzer {
         nextToken();
     }
 
+    /**
+     * command_list -> command | command_list; command
+     */
     private void checkCommands() {
         // command;
         checkCommand();
@@ -150,6 +183,13 @@ public class SyntacticAnalyzer {
         nextToken();
     }
 
+    /**
+     * command -> variable := expression | procedure_call | compound_command
+     * | if expression then command esle_part
+     * | while expression do command
+     * <p>
+     * else_part -> else command | E
+     */
     private void checkCommand() {
         // variable := expression
         if (typeMatches(IDENTIFIER)) {
@@ -166,7 +206,7 @@ public class SyntacticAnalyzer {
                     nextToken();
                     checkExpression();
                 }
-                if(!nameMatches(")")) throw new SyntaxException(")", token);
+                if (!nameMatches(")")) throw new SyntaxException(")", token);
                 nextToken();
             }
         }
@@ -175,6 +215,9 @@ public class SyntacticAnalyzer {
 
     }
 
+    /**
+     * expression -> simple expression | simple_expression relational_op simple_expression
+     */
     private void checkExpression() {
         checkSimpleExpression();
         if (typeMatches(RELATIONAL_OPERATOR)) {
@@ -183,6 +226,9 @@ public class SyntacticAnalyzer {
         }
     }
 
+    /**
+     * simple_expression -> term | signal term | simple_expression additive_op term
+     */
     private void checkSimpleExpression() {
         // term
         checkTerm();
@@ -193,20 +239,23 @@ public class SyntacticAnalyzer {
             checkTerm();
         }
 
-        // | term add_op simple_exp
-        // add_op -> + | - | or
+        // | term additive_op simple_exp
+        // additive_op -> + | - | or
         if (typeMatches(ADDITIVE_OPERATOR) || typeMatches("or")) {
             nextToken();
             checkSimpleExpression();
         }
     }
 
+    /**
+     * term -> factor | term multiplicative_op factor
+     */
     private void checkTerm() {
         // factor
         checkFactor();
 
         // | factor multiplicative_op term
-        // multi_op -> * | / | and
+        // multiplicative_op -> * | / | and
         if (typeMatches(MULTIPLICATIVE_OPERATOR) || typeMatches("and")) {
             nextToken();
             checkFactor();
@@ -214,6 +263,9 @@ public class SyntacticAnalyzer {
         }
     }
 
+    /**
+     * factor -> id | id(list_of_expressions) | integer | real | true | false | (expression) | not factor
+     */
     private void checkFactor() {
         // id | integer | real
         if (typeMatches(IDENTIFIER) || typeMatches(INTEGER) || typeMatches(REAL)) {
@@ -232,5 +284,6 @@ public class SyntacticAnalyzer {
         else if (nameMatches("true") || nameMatches("false")) {
             nextToken();
         }
+        // | not factor
     }
 }
