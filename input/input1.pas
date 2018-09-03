@@ -24,7 +24,7 @@ begin
 	if 3 > 4 then
 	begin
 		valor := 30;
-	end
+	end;
 
 	if 3 > 4
 	then begin
@@ -32,11 +32,17 @@ begin
 	end
 	else begin
 		valor2 := valor2+1;
-	end
+	end;
+
+	while valor > 0 do
+	begin
+		valor := valor - 1;
+	end;
 
 	while 3 > 2 do
-	begin
-		valor3 := 4 + 3;
-	end
+    begin
+        valor3 := 4 + 3;
+    end;
+
 end.
 
