@@ -2,6 +2,7 @@ package compilerbuilding.syntactic;
 
 import compilerbuilding.lexical.Token;
 import compilerbuilding.syntactic.exception.SyntaxException;
+import jdk.nashorn.internal.runtime.regexp.joni.Syntax;
 
 import java.util.List;
 
@@ -41,6 +42,9 @@ public class SyntacticAnalyzer {
         checkProgram();
         checkVariables();
         checkSubprograms();
+        checkCompoundCommand();
+        if(!nameMatches(".")) throw new SyntaxException(".", token);
+        System.out.println("Compiled");
     }
 
     private boolean nameMatches(String name) {
@@ -206,9 +210,36 @@ public class SyntacticAnalyzer {
                 nextToken();
             }
         }
-        // else if [if then]
-        // else if [while do]
+        // | if expression then command else_part
+        else if (nameMatches("if")) {
+            nextToken();
+            checkExpression();
 
+            if(!nameMatches("then")) throw new SyntaxException("then", token);
+            nextToken();
+
+            checkCommand();
+
+            // else_part -> else | E
+            if(nameMatches("else")) {
+                nextToken();
+                checkCommand();
+            }
+        }
+        // | while expression do command
+        else if(nameMatches("while")) {
+            nextToken();
+            checkExpression();
+
+            if(!nameMatches("do")) throw new SyntaxException("do", token);
+            nextToken();
+
+            checkCommand();
+        }
+        // | compound_command
+        else if(nameMatches("begin")){
+            checkCompoundCommand();
+        }
     }
 
     /**
@@ -284,6 +315,8 @@ public class SyntacticAnalyzer {
         else if (nameMatches("not")) {
             nextToken();
             checkFactor();
+        }else if(typeMatches(THREED)) {
+            nextToken();
         }
     }
 }
