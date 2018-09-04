@@ -28,7 +28,7 @@ public class SyntacticAnalyzer {
         this.token = tokens.get(0);
     }
 
-    private void nextToken() {
+    private void goToNextToken() {
         token = tokens.get(++current);
     }
 
@@ -60,13 +60,13 @@ public class SyntacticAnalyzer {
     private void checkProgram() {
         if (!nameMatches("program")) throw new SyntaxException("program", token);
 
-        nextToken();
+        goToNextToken();
         if (!typeMatches(IDENTIFIER)) throw new SyntaxException(IDENTIFIER, token);
 
-        nextToken();
+        goToNextToken();
         if (!nameMatches(";")) throw new SyntaxException(";", token);
 
-        nextToken();
+        goToNextToken();
     }
 
     /**
@@ -75,25 +75,25 @@ public class SyntacticAnalyzer {
     private void checkVariables() {
         if (!token.getName().equals("var")) return;
 
-        nextToken();
+        goToNextToken();
         while (typeMatches(IDENTIFIER)) {
-            nextToken();
+            goToNextToken();
 
             // Optionally, could be a list of variables. Example: a, b : integer;
             if (nameMatches(",")) {
-                nextToken();
+                goToNextToken();
                 continue;
             }
 
             if (!nameMatches(":")) throw new SyntaxException(":", token);
 
-            nextToken();
+            goToNextToken();
             if (notDataType()) throw new SyntaxException("a data type", token);
 
-            nextToken();
+            goToNextToken();
             if (!nameMatches(";")) throw new SyntaxException(";", token);
 
-            nextToken();
+            goToNextToken();
         }
     }
 
@@ -116,12 +116,12 @@ public class SyntacticAnalyzer {
     private void checkSubprogram() {
         if (!nameMatches("procedure")) return;
 
-        nextToken();
+        goToNextToken();
         checkParameters();
         checkVariables();
         checkCompoundCommand();
         if(!nameMatches(";")) throw new SyntaxException(";", token);
-        nextToken();
+        goToNextToken();
     }
 
     /**
@@ -132,30 +132,30 @@ public class SyntacticAnalyzer {
     private void checkParameters() {
         if (!typeMatches(IDENTIFIER)) throw new SyntaxException(IDENTIFIER, token);
 
-        nextToken();
+        goToNextToken();
         if (!nameMatches("(")) throw new SyntaxException("(", token);
 
-        nextToken();
+        goToNextToken();
         while (typeMatches(IDENTIFIER)) {
 
-            nextToken();
+            goToNextToken();
             if (!nameMatches(":")) throw new SyntaxException(":", token);
 
-            nextToken();
+            goToNextToken();
             if (notDataType()) throw new SyntaxException("a data type", token);
 
-            nextToken();
+            goToNextToken();
             if (!nameMatches(";")) break;
 
-            nextToken();
+            goToNextToken();
         }
 
         if (!nameMatches(")")) throw new SyntaxException(")", token);
 
-        nextToken();
+        goToNextToken();
         if (!nameMatches(";")) throw new SyntaxException(";", token);
 
-        nextToken();
+        goToNextToken();
     }
 
     /**
@@ -165,13 +165,13 @@ public class SyntacticAnalyzer {
      */
     private void checkCompoundCommand() {
         if (!nameMatches("begin")) throw new SyntaxException("begin", token);
-        nextToken();
+        goToNextToken();
 
         // command; command_list
         while (!nameMatches("end")) {
             checkCommands();
         }
-        nextToken();
+        goToNextToken();
     }
 
     /**
@@ -181,7 +181,7 @@ public class SyntacticAnalyzer {
         // command;
         checkCommand();
         if (!nameMatches(";")) throw new SyntaxException(";", token);
-        nextToken();
+        goToNextToken();
     }
 
     /**
@@ -194,46 +194,46 @@ public class SyntacticAnalyzer {
     private void checkCommand() {
         // variable := expression
         if (typeMatches(IDENTIFIER)) {
-            nextToken();
+            goToNextToken();
             if (typeMatches(ATTRIBUTION)) {
-                nextToken();
+                goToNextToken();
                 checkExpression();
             }
             // | procedure call
             else if (nameMatches("(")) {
-                nextToken();
+                goToNextToken();
                 checkExpression();
                 while (nameMatches(",")) {
-                    nextToken();
+                    goToNextToken();
                     checkExpression();
                 }
                 if (!nameMatches(")")) throw new SyntaxException(")", token);
-                nextToken();
+                goToNextToken();
             }
         }
         // | if expression then command else_part
         else if (nameMatches("if")) {
-            nextToken();
+            goToNextToken();
             checkExpression();
 
             if(!nameMatches("then")) throw new SyntaxException("then", token);
-            nextToken();
+            goToNextToken();
 
             checkCommand();
 
             // else_part -> else | E
             if(nameMatches("else")) {
-                nextToken();
+                goToNextToken();
                 checkCommand();
             }
         }
         // | while expression do command
         else if(nameMatches("while")) {
-            nextToken();
+            goToNextToken();
             checkExpression();
 
             if(!nameMatches("do")) throw new SyntaxException("do", token);
-            nextToken();
+            goToNextToken();
 
             checkCommand();
         }
@@ -249,7 +249,7 @@ public class SyntacticAnalyzer {
     private void checkExpression() {
         checkSimpleExpression();
         if (typeMatches(RELATIONAL_OPERATOR)) {
-            nextToken();
+            goToNextToken();
             checkSimpleExpression();
         }
     }
@@ -263,14 +263,14 @@ public class SyntacticAnalyzer {
 
         // | signal term
         if (nameMatches("+") || nameMatches("-")) {
-            nextToken();
+            goToNextToken();
             checkTerm();
         }
 
         // | term additive_op simple_exp
         // additive_op -> + | - | or
         if (typeMatches(ADDITIVE_OPERATOR) || nameMatches("or")) {
-            nextToken();
+            goToNextToken();
             checkSimpleExpression();
         }
     }
@@ -285,7 +285,7 @@ public class SyntacticAnalyzer {
         // | factor multiplicative_op term
         // multiplicative_op -> * | / | and
         if (typeMatches(MULTIPLICATIVE_OPERATOR) || nameMatches("and")) {
-            nextToken();
+            goToNextToken();
             checkFactor();
             checkTerm();
         }
@@ -297,27 +297,27 @@ public class SyntacticAnalyzer {
     private void checkFactor() {
         // id | integer | real
         if (typeMatches(IDENTIFIER) || typeMatches(INTEGER) || typeMatches(REAL)) {
-            nextToken();
+            goToNextToken();
         }
         // | (expression)
         else if (nameMatches("(")) {
-            nextToken();
+            goToNextToken();
             checkExpression();
 
             if (!nameMatches(")")) throw new SyntaxException(")", token);
-            nextToken();
+            goToNextToken();
         }
         // | true
         // | false
         else if (nameMatches("true") || nameMatches("false")) {
-            nextToken();
+            goToNextToken();
         }
         // | not factor
         else if (nameMatches("not")) {
-            nextToken();
+            goToNextToken();
             checkFactor();
         }else if(typeMatches(REAL_3D)) {
-            nextToken();
+            goToNextToken();
         }
     }
 }
