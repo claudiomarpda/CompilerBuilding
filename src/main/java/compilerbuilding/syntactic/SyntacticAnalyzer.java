@@ -1,6 +1,7 @@
 package compilerbuilding.syntactic;
 
 import compilerbuilding.lexical.Token;
+import compilerbuilding.lexical.TokenType;
 import compilerbuilding.syntactic.exception.SyntaxException;
 
 import java.util.List;
@@ -29,7 +30,12 @@ public class SyntacticAnalyzer {
     }
 
     private void goToNextToken() {
-        token = tokens.get(++current);
+        if(++current >= tokens.size()) {
+            token = new Token("", TokenType.UNDEFINED, token.getLine());
+        }
+        else {
+            token = tokens.get(current);
+        }
     }
 
     /**
