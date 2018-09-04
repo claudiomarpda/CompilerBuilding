@@ -9,12 +9,12 @@ var
 procedure calcula_percentual (n1:real; per1:real); 
 begin 
     per1 := n1 * (21/100); 
-end
+end;
 
 procedure calcula_2 (n1:integer; per1:real); 
 begin 
     per1 := n1 * (54*33); 
-end
+end;
 
 begin
 	valor1 := 10;

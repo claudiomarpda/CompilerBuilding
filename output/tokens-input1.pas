@@ -48,6 +48,7 @@
                         )                 Delimiter                        11
                         ;                 Delimiter                        11
                       end                   Keyword                        12
+                        ;                 Delimiter                        12
                 procedure                   Keyword                        14
                 calcula_2                Identifier                        14
                         (                 Delimiter                        14
@@ -72,6 +73,7 @@
                         )                 Delimiter                        16
                         ;                 Delimiter                        16
                       end                   Keyword                        17
+                        ;                 Delimiter                        17
                     begin                   Keyword                        19
                    valor1                Identifier                        20
                        :=               Attribution                        20
@@ -104,6 +106,7 @@
                        30                   Integer                        26
                         ;                 Delimiter                        26
                       end                   Keyword                        27
+                        ;                 Delimiter                        27
                        if                   Keyword                        29
                         3                   Integer                        29
                         >       Relational Operator                        29
@@ -124,18 +127,34 @@
                         1                   Integer                        34
                         ;                 Delimiter                        34
                       end                   Keyword                        35
+                        ;                 Delimiter                        35
                     while                   Keyword                        37
-                        3                   Integer                        37
+                    valor                Identifier                        37
                         >       Relational Operator                        37
-                        2                   Integer                        37
+                        0                   Integer                        37
                        do                   Keyword                        37
                     begin                   Keyword                        38
-                   valor3                Identifier                        39
+                    valor                Identifier                        39
                        :=               Attribution                        39
-                        4                   Integer                        39
-                        +         Additive Operator                        39
-                        3                   Integer                        39
+                    valor                Identifier                        39
+                        -         Additive Operator                        39
+                        1                   Integer                        39
                         ;                 Delimiter                        39
                       end                   Keyword                        40
-                      end                   Keyword                        41
-                        .                 Delimiter                        41
+                        ;                 Delimiter                        40
+                    while                   Keyword                        42
+                        3                   Integer                        42
+                        >       Relational Operator                        42
+                        2                   Integer                        42
+                       do                   Keyword                        42
+                    begin                   Keyword                        43
+                   valor3                Identifier                        44
+                       :=               Attribution                        44
+                        4                   Integer                        44
+                        +         Additive Operator                        44
+                        3                   Integer                        44
+                        ;                 Delimiter                        44
+                      end                   Keyword                        45
+                        ;                 Delimiter                        45
+                      end                   Keyword                        47
+                        .                 Delimiter                        47

@@ -5,23 +5,25 @@ valor_2: real;
 
 procedure pro();
 begin
-end
+end;
 
 procedure pro1(a : integer);
 begin
-end
+end;
 
 procedure pro2(a : integer; b : real);
 begin
     writeln(a);
     writeln(b);
-end
+end;
 
 procedure pro3(a : integer; b : real; c : boolean);
 var
 d : integer;
 e : real;
 boo : boolean;
+begin
+end;
 
 begin
     valor1 := 10 * (1 * 2) / 2;

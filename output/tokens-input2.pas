@@ -26,14 +26,14 @@
                         9                   Integer                         8
                         ;                 Delimiter                         8
                        if                   Keyword                        10
-                   NUMERO                Identifier                        10
                         (                 Delimiter                        10
+                   NUMERO                Identifier                        10
                        >=       Relational Operator                        10
                        20                   Integer                        10
                         )                 Delimiter                        10
                        or                Identifier                        10
-                   NUMERO                Identifier                        10
                         (                 Delimiter                        10
+                   NUMERO                Identifier                        10
                        <=       Relational Operator                        10
                        90                   Integer                        10
                         )                 Delimiter                        10
@@ -41,8 +41,8 @@
                     begin                   Keyword                        11
                    NUMERO                Identifier                        12
                        :=               Attribution                        12
-                       10                   Integer                        12
                         -         Additive Operator                        12
+                       10                   Integer                        12
                         /   Multiplicative Operator                        12
                         (                 Delimiter                        12
                         -         Additive Operator                        12

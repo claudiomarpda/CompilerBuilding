@@ -24,16 +24,15 @@
                         9                   Integer                         6
                         ;                 Delimiter                         6
                        if                   Keyword                         7
-                   NUMERO                Identifier                         7
                         (                 Delimiter                         7
+                   NUMERO                Identifier                         7
                        >=       Relational Operator                         7
                        20                   Integer                         7
                         )                 Delimiter                         7
                       and                Identifier                         7
-                   NUMERO                Identifier                         7
                         (                 Delimiter                         7
-                        <       Relational Operator                         7
-                        =       Relational Operator                         7
+                   NUMERO                Identifier                         7
+                       <=       Relational Operator                         7
                        90                   Integer                         7
                         )                 Delimiter                         7
                      then                   Keyword                         7
@@ -48,5 +47,6 @@
                    NUMERO                Identifier                         9
                         +         Additive Operator                         9
                         1                   Integer                         9
+                        ;                 Delimiter                         9
                       end                   Keyword                        10
                         .                 Delimiter                        10

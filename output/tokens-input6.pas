@@ -19,6 +19,7 @@
                         ;                 Delimiter                         6
                     begin                   Keyword                         7
                       end                   Keyword                         8
+                        ;                 Delimiter                         8
                 procedure                   Keyword                        10
                      pro1                Identifier                        10
                         (                 Delimiter                        10
@@ -29,6 +30,7 @@
                         ;                 Delimiter                        10
                     begin                   Keyword                        11
                       end                   Keyword                        12
+                        ;                 Delimiter                        12
                 procedure                   Keyword                        14
                      pro2                Identifier                        14
                         (                 Delimiter                        14
@@ -53,6 +55,7 @@
                         )                 Delimiter                        17
                         ;                 Delimiter                        17
                       end                   Keyword                        18
+                        ;                 Delimiter                        18
                 procedure                   Keyword                        20
                      pro3                Identifier                        20
                         (                 Delimiter                        20
@@ -82,96 +85,99 @@
                         :                 Delimiter                        24
                   boolean                   Keyword                        24
                         ;                 Delimiter                        24
-                    begin                   Keyword                        26
-                   valor1                Identifier                        27
-                       :=               Attribution                        27
-                       10                   Integer                        27
-                        *   Multiplicative Operator                        27
-                        (                 Delimiter                        27
-                        1                   Integer                        27
-                        *   Multiplicative Operator                        27
-                        2                   Integer                        27
-                        )                 Delimiter                        27
-                        /   Multiplicative Operator                        27
-                        2                   Integer                        27
-                        ;                 Delimiter                        27
-                   valor1                Identifier                        28
-                       :=               Attribution                        28
-                       10                   Integer                        28
-                        +         Additive Operator                        28
-                        1                   Integer                        28
-                        *   Multiplicative Operator                        28
-                        2                   Integer                        28
-                        -         Additive Operator                        28
-                        1                   Integer                        28
-                        ;                 Delimiter                        28
-                  valor_2                Identifier                        29
+                    begin                   Keyword                        25
+                      end                   Keyword                        26
+                        ;                 Delimiter                        26
+                    begin                   Keyword                        28
+                   valor1                Identifier                        29
                        :=               Attribution                        29
-                      2.5                      Real                        29
+                       10                   Integer                        29
+                        *   Multiplicative Operator                        29
+                        (                 Delimiter                        29
+                        1                   Integer                        29
+                        *   Multiplicative Operator                        29
+                        2                   Integer                        29
+                        )                 Delimiter                        29
+                        /   Multiplicative Operator                        29
+                        2                   Integer                        29
                         ;                 Delimiter                        29
-                      boo                Identifier                        30
+                   valor1                Identifier                        30
                        :=               Attribution                        30
-                    false                Identifier                        30
+                       10                   Integer                        30
+                        +         Additive Operator                        30
+                        1                   Integer                        30
+                        *   Multiplicative Operator                        30
+                        2                   Integer                        30
+                        -         Additive Operator                        30
+                        1                   Integer                        30
                         ;                 Delimiter                        30
-                      boo                Identifier                        31
+                  valor_2                Identifier                        31
                        :=               Attribution                        31
-                     true                Identifier                        31
+                      2.5                      Real                        31
                         ;                 Delimiter                        31
                       boo                Identifier                        32
                        :=               Attribution                        32
-                      not                   Keyword                        32
-                      boo                Identifier                        32
+                    false                Identifier                        32
                         ;                 Delimiter                        32
                       boo                Identifier                        33
                        :=               Attribution                        33
                      true                Identifier                        33
-                       or                Identifier                        33
-                    false                Identifier                        33
                         ;                 Delimiter                        33
                       boo                Identifier                        34
                        :=               Attribution                        34
                       not                   Keyword                        34
-                     true                Identifier                        34
-                       or                Identifier                        34
-                      not                   Keyword                        34
-                    false                Identifier                        34
+                      boo                Identifier                        34
                         ;                 Delimiter                        34
                       boo                Identifier                        35
                        :=               Attribution                        35
-                    false                Identifier                        35
-                      and                Identifier                        35
+                     true                Identifier                        35
+                       or                Identifier                        35
                     false                Identifier                        35
                         ;                 Delimiter                        35
                       boo                Identifier                        36
                        :=               Attribution                        36
+                      not                   Keyword                        36
                      true                Identifier                        36
                        or                Identifier                        36
-                     true                Identifier                        36
+                      not                   Keyword                        36
+                    false                Identifier                        36
                         ;                 Delimiter                        36
-                      pro                Identifier                        37
-                        (                 Delimiter                        37
-                        )                 Delimiter                        37
+                      boo                Identifier                        37
+                       :=               Attribution                        37
+                    false                Identifier                        37
+                      and                Identifier                        37
+                    false                Identifier                        37
                         ;                 Delimiter                        37
-                     pro1                Identifier                        38
-                        (                 Delimiter                        38
-                        1                   Integer                        38
-                        )                 Delimiter                        38
+                      boo                Identifier                        38
+                       :=               Attribution                        38
+                     true                Identifier                        38
+                       or                Identifier                        38
+                     true                Identifier                        38
                         ;                 Delimiter                        38
-                     pro2                Identifier                        39
+                      pro                Identifier                        39
                         (                 Delimiter                        39
-                        1                   Integer                        39
-                        ,                 Delimiter                        39
-                        2                   Integer                        39
                         )                 Delimiter                        39
                         ;                 Delimiter                        39
-                     pro3                Identifier                        40
+                     pro1                Identifier                        40
                         (                 Delimiter                        40
                         1                   Integer                        40
-                        ,                 Delimiter                        40
-                        2                   Integer                        40
-                        ,                 Delimiter                        40
-                     true                Identifier                        40
                         )                 Delimiter                        40
                         ;                 Delimiter                        40
-                      end                   Keyword                        41
-                        .                 Delimiter                        41
+                     pro2                Identifier                        41
+                        (                 Delimiter                        41
+                        1                   Integer                        41
+                        ,                 Delimiter                        41
+                        2                   Integer                        41
+                        )                 Delimiter                        41
+                        ;                 Delimiter                        41
+                     pro3                Identifier                        42
+                        (                 Delimiter                        42
+                        1                   Integer                        42
+                        ,                 Delimiter                        42
+                        2                   Integer                        42
+                        ,                 Delimiter                        42
+                     true                Identifier                        42
+                        )                 Delimiter                        42
+                        ;                 Delimiter                        42
+                      end                   Keyword                        43
+                        .                 Delimiter                        43
