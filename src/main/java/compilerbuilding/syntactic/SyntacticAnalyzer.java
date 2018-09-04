@@ -44,7 +44,7 @@ public class SyntacticAnalyzer {
         checkSubprograms();
         checkCompoundCommand();
         if(!nameMatches(".")) throw new SyntaxException(".", token);
-        System.out.println("Compiled");
+        System.out.println("Syntax OK");
     }
 
     private boolean nameMatches(String name) {
@@ -121,6 +121,8 @@ public class SyntacticAnalyzer {
         checkParameters();
         checkVariables();
         checkCompoundCommand();
+        if(!nameMatches(";")) throw new SyntaxException(";", token);
+        nextToken();
     }
 
     /**
