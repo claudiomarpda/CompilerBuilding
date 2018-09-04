@@ -1,19 +1,19 @@
 package compilerbuilding.lexical;
 
-public final class TokenType {
+public interface TokenType {
 
-    public static final String UNDEFINED = "Undefined";
-    public static final String UNKNOWN = "Unknown";
-    public static final String KEYWORD = "Keyword";
-    public static final String DELIMITER = "Delimiter";
-    public static final String RELATIONAL_OPERATOR = "Relational Operator";
-    public static final String ADDITIVE_OPERATOR = "Additive Operator";
-    public static final String MULTIPLICATIVE_OPERATOR = "Multiplicative Operator";
-    public static final String ATTRIBUTION = "Attribution";
-    public static final String INTEGER = "Integer";
-    public static final String REAL = "Real";
-    public static final String IDENTIFIER = "Identifier";
-    public static final String COMMENT = "Comment";
-    public static final String THREED = "Real 3D";
+    String UNDEFINED = "Undefined";
+    String UNKNOWN = "Unknown";
+    String KEYWORD = "Keyword";
+    String DELIMITER = "Delimiter";
+    String RELATIONAL_OPERATOR = "Relational Operator";
+    String ADDITIVE_OPERATOR = "Additive Operator";
+    String MULTIPLICATIVE_OPERATOR = "Multiplicative Operator";
+    String ATTRIBUTION = "Attribution";
+    String INTEGER = "Integer";
+    String REAL = "Real";
+    String IDENTIFIER = "Identifier";
+    String COMMENT = "Comment";
+    String REAL_3D = "Real 3D";
 
 }

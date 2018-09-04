@@ -166,7 +166,7 @@ public final class LexicalAnalyzer {
         } else if (IDENTIFIER_PATTERN.matcher(token).matches()) {
             return IDENTIFIER;
         } else if (THREE_D_PATTERN.matcher(token).matches()) {
-            return THREED;
+            return REAL_3D;
         }
         return UNKNOWN;
     }

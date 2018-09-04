@@ -2,7 +2,6 @@ package compilerbuilding.syntactic;
 
 import compilerbuilding.lexical.Token;
 import compilerbuilding.syntactic.exception.SyntaxException;
-import jdk.nashorn.internal.runtime.regexp.joni.Syntax;
 
 import java.util.List;
 
@@ -317,7 +316,7 @@ public class SyntacticAnalyzer {
         else if (nameMatches("not")) {
             nextToken();
             checkFactor();
-        }else if(typeMatches(THREED)) {
+        }else if(typeMatches(REAL_3D)) {
             nextToken();
         }
     }
