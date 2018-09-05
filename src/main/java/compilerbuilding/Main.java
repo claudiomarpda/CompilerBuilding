@@ -14,7 +14,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        for (int i = 0; i <= 6; i++) {
+        for (int i = 0; i <= 7; i++) {
             if(i == 3) continue;
 
             List<Token> tokens = run(i);

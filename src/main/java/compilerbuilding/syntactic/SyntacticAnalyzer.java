@@ -159,6 +159,7 @@ public class SyntacticAnalyzer {
         if (!nameMatches(")")) throw new SyntaxException(")", token);
 
         goToNextToken();
+
         if (!nameMatches(";")) throw new SyntaxException(";", token);
 
         goToNextToken();
@@ -242,6 +243,26 @@ public class SyntacticAnalyzer {
             goToNextToken();
 
             checkCommand();
+        }
+        // | do command while(expression);
+        else if(nameMatches("do")) {
+            goToNextToken();
+            checkCommand();
+
+            if(!nameMatches(";")) throw new SyntaxException(";", token);
+            goToNextToken();
+
+            if(!nameMatches("while")) throw new SyntaxException("while", token);
+            goToNextToken();
+
+            if(!nameMatches("(")) throw new SyntaxException("(", token);
+            goToNextToken();
+
+            checkExpression();
+
+            if(!nameMatches(")")) throw new SyntaxException(")", token);
+            goToNextToken();
+
         }
         // | compound_command
         else if(nameMatches("begin")){
