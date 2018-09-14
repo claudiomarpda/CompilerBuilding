@@ -1,17 +1,20 @@
 package compilerbuilding.semantic;
 
+import compilerbuilding.lexical.Token;
+
 public interface SemanticAnalysis {
 
     void startProgram();
 
-    boolean exists(String identifier);
+    void push(Token token);
 
-    void push(String identifier);
-
-    String pop();
+    void checkDefinition(Token token);
 
     void openScope();
 
     void closeScope();
 
+    void showResult();
+
+    boolean hasError();
 }

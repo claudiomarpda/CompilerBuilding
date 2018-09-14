@@ -3,7 +3,6 @@ package compilerbuilding.syntactic;
 import compilerbuilding.lexical.Token;
 import compilerbuilding.lexical.TokenType;
 import compilerbuilding.semantic.SemanticAnalysis;
-import compilerbuilding.semantic.SemanticAnalyzer;
 import compilerbuilding.syntactic.exception.SyntaxException;
 
 import java.util.List;
@@ -35,6 +34,7 @@ public class SyntacticAnalyzer {
 
     public SyntacticAnalyzer(List<Token> tokens, SemanticAnalysis semanticAnalysis) {
         this(tokens);
+        this.semanticAnalysis = semanticAnalysis;
     }
 
     private void goToNextToken() {
@@ -77,6 +77,8 @@ public class SyntacticAnalyzer {
         goToNextToken();
         if (!typeMatches(IDENTIFIER)) throw new SyntaxException(IDENTIFIER, token);
 
+        semanticAnalysis.startProgram();
+
         goToNextToken();
         if (!nameMatches(";")) throw new SyntaxException(";", token);
 
@@ -91,6 +93,9 @@ public class SyntacticAnalyzer {
 
         goToNextToken();
         while (typeMatches(IDENTIFIER)) {
+
+            semanticAnalysis.push(token);
+
             goToNextToken();
 
             // Optionally, could be a list of variables. Example: a, b : integer;
@@ -131,10 +136,17 @@ public class SyntacticAnalyzer {
         if (!nameMatches("procedure")) return;
 
         goToNextToken();
+
+        semanticAnalysis.openScope();
+
         checkParameters();
         checkVariables();
+        checkSubprogram();
         checkCompoundCommand();
         if(!nameMatches(";")) throw new SyntaxException(";", token);
+
+        semanticAnalysis.closeScope();
+
         goToNextToken();
     }
 
@@ -151,6 +163,8 @@ public class SyntacticAnalyzer {
 
         goToNextToken();
         while (typeMatches(IDENTIFIER)) {
+
+            semanticAnalysis.push(token);
 
             goToNextToken();
             if (!nameMatches(":")) throw new SyntaxException(":", token);
@@ -332,6 +346,7 @@ public class SyntacticAnalyzer {
     private void checkFactor() {
         // id | integer | real
         if (typeMatches(IDENTIFIER) || typeMatches(INTEGER) || typeMatches(REAL)) {
+            semanticAnalysis.checkDefinition(token);
             goToNextToken();
         }
         // | (expression)

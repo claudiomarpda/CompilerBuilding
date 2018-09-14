@@ -3,6 +3,7 @@ package compilerbuilding;
 
 import compilerbuilding.lexical.LexicalAnalyzer;
 import compilerbuilding.lexical.Token;
+import compilerbuilding.semantic.SemanticAnalysis;
 import compilerbuilding.semantic.SemanticAnalyzer;
 import compilerbuilding.syntactic.SyntacticAnalyzer;
 import compilerbuilding.syntactic.exception.SyntaxException;
@@ -15,7 +16,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        for (int i = 0; i <= 0; i++) {
+        for (int i = 8; i <= 8; i++) {
             if (i == 3) continue;
 
             List<Token> tokens = runLexical(i);
@@ -33,12 +34,14 @@ public class Main {
     }
 
     private static void runSyntactic(int index, List<Token> tokens) {
+        SemanticAnalysis semanticAnalysis = new SemanticAnalyzer();
         try {
-            new SyntacticAnalyzer(tokens, new SemanticAnalyzer()).analyze();
+            new SyntacticAnalyzer(tokens, semanticAnalysis).analyze();
         } catch (SyntaxException e) {
             System.err.println("Syntax error in program of index " + index);
             e.printStackTrace();
         }
+        semanticAnalysis.showResult();
     }
 
 }
