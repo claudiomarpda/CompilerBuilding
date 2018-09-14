@@ -2,6 +2,8 @@ package compilerbuilding.syntactic;
 
 import compilerbuilding.lexical.Token;
 import compilerbuilding.lexical.TokenType;
+import compilerbuilding.semantic.SemanticAnalysis;
+import compilerbuilding.semantic.SemanticAnalyzer;
 import compilerbuilding.syntactic.exception.SyntaxException;
 
 import java.util.List;
@@ -24,9 +26,15 @@ public class SyntacticAnalyzer {
     // Index of the current token
     private int current;
 
+    private SemanticAnalysis semanticAnalysis;
+
     public SyntacticAnalyzer(List<Token> tokens) {
         this.tokens = tokens;
         this.token = tokens.get(0);
+    }
+
+    public SyntacticAnalyzer(List<Token> tokens, SemanticAnalysis semanticAnalysis) {
+        this(tokens);
     }
 
     private void goToNextToken() {
