@@ -4,10 +4,12 @@ public class Identifier {
 
     private String name;
     private String type;
+    private int line;
 
-    public Identifier(String name, String type) {
+    public Identifier(String name, String type, int line) {
         this.name = name;
         this.type = type;
+        this.line = line;
     }
 
     public String getName() {
@@ -24,5 +26,13 @@ public class Identifier {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public int getLine() {
+        return line;
+    }
+
+    public void setLine(int line) {
+        this.line = line;
     }
 }

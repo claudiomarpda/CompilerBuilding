@@ -119,6 +119,8 @@ public class SyntacticAnalyzer {
             goToNextToken();
             if (!nameMatches(";")) throw new SyntaxException(";", token);
 
+            identifiers = 0;
+
             goToNextToken();
         }
     }

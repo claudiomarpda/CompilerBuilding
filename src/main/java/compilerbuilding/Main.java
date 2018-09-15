@@ -16,7 +16,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        for (int i = 8; i <= 8; i++) {
+        for (int i = 0; i <= 0; i++) {
             if (i == 3) continue;
 
             List<Token> tokens = runLexical(i);

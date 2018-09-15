@@ -38,9 +38,9 @@ public class TypeController {
                     stack.push(REAL);
                 } else if (t1.equals(REAL) && t2.equals(INTEGER)) {
                     stack.push(REAL);
-                } else {
-                    semanticResult.add(t1, t2);
                 }
+            } else {
+                semanticResult.add(t1, t2, -1);
             }
         }
     }
@@ -65,5 +65,4 @@ public class TypeController {
     private boolean isNumericOperation(String operator) {
         return operator.equals("+") || operator.equals("-") || operator.equals("*") || operator.equals("/");
     }
-
 }

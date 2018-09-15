@@ -20,8 +20,8 @@ public class SemanticResult {
         results.add(cause + token.getName() + " at line " + token.getLine());
     }
 
-    public void add(String type1, String type2) {
-        results.add("Incompatible types: '" + type1 + "' and '" + type2 + "'");
+    public void add(String type1, String type2, int line) {
+        results.add("Incompatible types: '" + type1 + "' and '" + type2 + "' at line " + line);
     }
 
     public List<String> getResults() {
