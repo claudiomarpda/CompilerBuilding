@@ -9,6 +9,7 @@ public interface TokenType {
     String RELATIONAL_OPERATOR = "Relational Operator";
     String ADDITIVE_OPERATOR = "Additive Operator";
     String MULTIPLICATIVE_OPERATOR = "Multiplicative Operator";
+    String LOGICAL_OPERATOR = "Logical Operator";
     String ATTRIBUTION = "Attribution";
     String INTEGER = "Integer";
     String REAL = "Real";

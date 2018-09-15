@@ -163,6 +163,8 @@ public final class LexicalAnalyzer {
             return INTEGER;
         } else if (REAL_PATTERN.matcher(token).matches()) {
             return REAL;
+        } else if(LOGIC_OPERATORS.contains(token)) {
+            return LOGICAL_OPERATOR;
         } else if (IDENTIFIER_PATTERN.matcher(token).matches()) {
             return IDENTIFIER;
         } else if (THREE_D_PATTERN.matcher(token).matches()) {

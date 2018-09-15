@@ -43,7 +43,7 @@ public class TypeController {
             } else if (isRelationalOperation(operator)) {
                 stack.push(BOOLEAN);
             } else if (isLogicOperation(operator)) {
-                System.out.println("logic op");
+                stack.push(BOOLEAN);
             } else {
                 semanticResult.add(t1, t2, line);
             }
@@ -80,7 +80,6 @@ public class TypeController {
     }
 
     private boolean isNumericOperation(String operator) {
-//        return operator.equals("+") || operator.equals("-") || operator.equals("*") || operator.equals("/");
         return operator.equalsIgnoreCase(TokenType.ADDITIVE_OPERATOR) ||
                 operator.equalsIgnoreCase(TokenType.MULTIPLICATIVE_OPERATOR);
     }
@@ -90,6 +89,6 @@ public class TypeController {
     }
 
     private boolean isLogicOperation(String operator) {
-        return operator.equalsIgnoreCase(TokenType.RELATIONAL_OPERATOR);
+        return operator.equalsIgnoreCase(TokenType.LOGICAL_OPERATOR);
     }
 }
