@@ -40,6 +40,7 @@ public class SemanticAnalyzer implements SemanticAnalysis {
             stack.push(token.getName());
 
             if (token.getType().equals(IDENTIFIER)) {
+                // Identifier data type will be set latter
                 identifiers.add(new Identifier(token.getName(), UNDEFINED, token.getLine()));
             }
         }
@@ -98,7 +99,7 @@ public class SemanticAnalyzer implements SemanticAnalysis {
             typeController.push(token.getType());
         }
 
-        typeController.update();
+        typeController.update(token.getLine());
     }
 
     @Override
