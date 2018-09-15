@@ -8,8 +8,6 @@ public interface SemanticAnalysis {
 
     void push(Token token);
 
-    void checkDefinition(Token token);
-
     void openScope();
 
     void closeScope();
@@ -17,4 +15,8 @@ public interface SemanticAnalysis {
     void showResult();
 
     boolean hasError();
+
+    void checkType(Token token);
+
+    void identifyType(int identifiers, String type);
 }

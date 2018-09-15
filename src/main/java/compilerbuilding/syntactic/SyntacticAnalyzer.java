@@ -92,8 +92,12 @@ public class SyntacticAnalyzer {
         if (!token.getName().equals("var")) return;
 
         goToNextToken();
-        while (typeMatches(IDENTIFIER)) {
 
+        // How many identifiers will be found
+        int identifiers = 0;
+
+        while (typeMatches(IDENTIFIER)) {
+            identifiers++;
             semanticAnalysis.push(token);
 
             goToNextToken();
@@ -108,6 +112,9 @@ public class SyntacticAnalyzer {
 
             goToNextToken();
             if (notDataType()) throw new SyntaxException("a data type", token);
+
+            // Set identifiers list type
+            semanticAnalysis.identifyType(identifiers, token.getName());
 
             goToNextToken();
             if (!nameMatches(";")) throw new SyntaxException(";", token);
@@ -162,8 +169,12 @@ public class SyntacticAnalyzer {
         if (!nameMatches("(")) throw new SyntaxException("(", token);
 
         goToNextToken();
-        while (typeMatches(IDENTIFIER)) {
 
+        // How many identifiers will be found
+        int identifiers = 0;
+
+        while (typeMatches(IDENTIFIER)) {
+            identifiers++;
             semanticAnalysis.push(token);
 
             goToNextToken();
@@ -171,6 +182,9 @@ public class SyntacticAnalyzer {
 
             goToNextToken();
             if (notDataType()) throw new SyntaxException("a data type", token);
+
+            // Set identifiers list type
+            semanticAnalysis.identifyType(identifiers, token.getName());
 
             goToNextToken();
             if (!nameMatches(";")) break;
@@ -346,7 +360,7 @@ public class SyntacticAnalyzer {
     private void checkFactor() {
         // id | integer | real
         if (typeMatches(IDENTIFIER) || typeMatches(INTEGER) || typeMatches(REAL)) {
-            semanticAnalysis.checkDefinition(token);
+            semanticAnalysis.checkType(token);
             goToNextToken();
         }
         // | (expression)

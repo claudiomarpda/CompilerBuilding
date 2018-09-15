@@ -3,8 +3,12 @@ package compilerbuilding.semantic;
 import compilerbuilding.lexical.Token;
 import compilerbuilding.lexical.TokenType;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
+import static compilerbuilding.lexical.TokenType.IDENTIFIER;
+import static compilerbuilding.lexical.TokenType.UNDEFINED;
 import static compilerbuilding.semantic.SemanticResult.DEFINED_VARIABLE;
 import static compilerbuilding.semantic.SemanticResult.UNDEFINED_VARIABLE;
 
@@ -12,13 +16,16 @@ public class SemanticAnalyzer implements SemanticAnalysis {
 
     private static final String MARK = "$";
 
-    private int scopeCounter;
     private Stack<String> stack;
     private SemanticResult result;
+    private List<Identifier> identifiers;
+    private Stack<String> typesController;
 
     public SemanticAnalyzer() {
         stack = new Stack<>();
         result = new SemanticResult();
+        typesController = new Stack<>();
+        identifiers = new ArrayList<>();
     }
 
     @Override
@@ -37,14 +44,10 @@ public class SemanticAnalyzer implements SemanticAnalysis {
             result.add(token, DEFINED_VARIABLE);
         } else {
             stack.push(token.getName());
-        }
-    }
 
-    @Override
-    public void checkDefinition(Token token) {
-        // Search method returns -1 when an object is not found
-        if(token.getType().equals(TokenType.IDENTIFIER) && stack.search(token.getName()) == -1) {
-            result.add(token, UNDEFINED_VARIABLE);
+            if(token.getType().equals(IDENTIFIER)) {
+                identifiers.add(new Identifier(token.getName(), UNDEFINED));
+            }
         }
     }
 
@@ -84,5 +87,26 @@ public class SemanticAnalyzer implements SemanticAnalysis {
     @Override
     public boolean hasError() {
         return result.getResults().size() > 0;
+    }
+
+    @Override
+    public void checkType(Token token) {
+        // Identifier
+        // Search method returns -1 when an object is not found
+        if(token.getType().equals(IDENTIFIER)) {
+            if(stack.search(token.getName()) == -1) {
+                result.add(token, UNDEFINED_VARIABLE);
+            }
+            else {
+
+            }
+        }
+    }
+
+    @Override
+    public void identifyType(int n, String type) {
+        for(int i = identifiers.size() - n; i < identifiers.size(); i++) {
+            identifiers.get(i).setType(type);
+        }
     }
 }
