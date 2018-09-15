@@ -31,7 +31,7 @@
                        >=       Relational Operator                        10
                        20                   Integer                        10
                         )                 Delimiter                        10
-                       or                Identifier                        10
+                       or          Logical Operator                        10
                         (                 Delimiter                        10
                    NUMERO                Identifier                        10
                        <=       Relational Operator                        10

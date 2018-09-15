@@ -117,11 +117,11 @@
                         ;                 Delimiter                        31
                       boo                Identifier                        32
                        :=               Attribution                        32
-                    false                Identifier                        32
+                    false                   Keyword                        32
                         ;                 Delimiter                        32
                       boo                Identifier                        33
                        :=               Attribution                        33
-                     true                Identifier                        33
+                     true                   Keyword                        33
                         ;                 Delimiter                        33
                       boo                Identifier                        34
                        :=               Attribution                        34
@@ -130,29 +130,29 @@
                         ;                 Delimiter                        34
                       boo                Identifier                        35
                        :=               Attribution                        35
-                     true                Identifier                        35
-                       or                Identifier                        35
-                    false                Identifier                        35
+                     true                   Keyword                        35
+                       or          Logical Operator                        35
+                    false                   Keyword                        35
                         ;                 Delimiter                        35
                       boo                Identifier                        36
                        :=               Attribution                        36
                       not                   Keyword                        36
-                     true                Identifier                        36
-                       or                Identifier                        36
+                     true                   Keyword                        36
+                       or          Logical Operator                        36
                       not                   Keyword                        36
-                    false                Identifier                        36
+                    false                   Keyword                        36
                         ;                 Delimiter                        36
                       boo                Identifier                        37
                        :=               Attribution                        37
-                    false                Identifier                        37
-                      and                Identifier                        37
-                    false                Identifier                        37
+                    false                   Keyword                        37
+                      and          Logical Operator                        37
+                    false                   Keyword                        37
                         ;                 Delimiter                        37
                       boo                Identifier                        38
                        :=               Attribution                        38
-                     true                Identifier                        38
-                       or                Identifier                        38
-                     true                Identifier                        38
+                     true                   Keyword                        38
+                       or          Logical Operator                        38
+                     true                   Keyword                        38
                         ;                 Delimiter                        38
                       pro                Identifier                        39
                         (                 Delimiter                        39
@@ -176,7 +176,7 @@
                         ,                 Delimiter                        42
                         2                   Integer                        42
                         ,                 Delimiter                        42
-                     true                Identifier                        42
+                     true                   Keyword                        42
                         )                 Delimiter                        42
                         ;                 Delimiter                        42
                       end                   Keyword                        43

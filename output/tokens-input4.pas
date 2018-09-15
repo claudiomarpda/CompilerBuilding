@@ -29,7 +29,7 @@
                        >=       Relational Operator                         7
                        20                   Integer                         7
                         )                 Delimiter                         7
-                      and                Identifier                         7
+                      and          Logical Operator                         7
                         (                 Delimiter                         7
                    NUMERO                Identifier                         7
                        <=       Relational Operator                         7

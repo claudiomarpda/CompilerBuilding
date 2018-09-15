@@ -8,7 +8,7 @@ public final class PascalPattern {
 
     public static final List<String> KEYWORDS = Arrays.asList(
             "program", "var", "integer", "real", "boolean", "procedure",
-            "begin", "end", "if", "then", "else", "while", "do", "not");
+            "begin", "end", "if", "then", "else", "while", "do", "not", "true", "false");
 
     public static final List<String> DELIMITERS = Arrays.asList(",", ";", ".", ":", "(", ")");
     public static final List<String> RELATIONAL_OPERATORS = Arrays.asList("=", "<", ">", "<=", ">=", "<>");
@@ -18,7 +18,7 @@ public final class PascalPattern {
     public static final String COMMENT_OPEN = "{";
     public static final String COMMENT_CLOSE = "}";
     public static final String COMMENT_LINE = "//";
-    public static final List<String> LOGIC_OPERATORS = Arrays.asList("or", "and");
+    public static final List<String> LOGICAL_OPERATORS = Arrays.asList("or", "and");
 
     public static final Pattern PATTERNS_UNION;
     public static final Pattern IDENTIFIER_PATTERN;
@@ -41,7 +41,7 @@ public final class PascalPattern {
         union.append("|").append(String.join("|", RELATIONAL_OPERATORS));
         union.append("|\\").append(String.join("|", ADDITIVE_OPERATORS));
         union.append("|\\").append(String.join("|", MULTIPLICATIVE_OPERATORS));
-        union.append("|").append(String.join("|", LOGIC_OPERATORS));
+        union.append("|").append(String.join("|", LOGICAL_OPERATORS));
         union.append("|").append(ATTRIBUTION_COMMAND);
         union.append('|').append(identifierRegex);
         union.append('|').append(integerRegex);
