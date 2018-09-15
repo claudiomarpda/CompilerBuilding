@@ -19,4 +19,8 @@ public interface SemanticAnalysis {
     void checkType(Token token);
 
     void identifyType(int identifiers, String type);
+
+    void endExpression();
+
+    void setVariable(Token token);
 }

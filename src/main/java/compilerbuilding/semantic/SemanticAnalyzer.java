@@ -1,7 +1,6 @@
 package compilerbuilding.semantic;
 
 import compilerbuilding.lexical.Token;
-import compilerbuilding.lexical.TokenType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,23 +18,18 @@ public class SemanticAnalyzer implements SemanticAnalysis {
     private Stack<String> stack;
     private SemanticResult result;
     private List<Identifier> identifiers;
-    private Stack<String> typesController;
+    private TypeController typeController;
 
     public SemanticAnalyzer() {
         stack = new Stack<>();
         result = new SemanticResult();
-        typesController = new Stack<>();
         identifiers = new ArrayList<>();
+        typeController = new TypeController(result);
     }
 
     @Override
     public void startProgram() {
         stack.push(MARK);
-    }
-
-    public boolean exists(String identifier) {
-        // Search method returns -1 when an object is not found
-        return stack.search(identifier) != -1;
     }
 
     @Override
@@ -45,7 +39,7 @@ public class SemanticAnalyzer implements SemanticAnalysis {
         } else {
             stack.push(token.getName());
 
-            if(token.getType().equals(IDENTIFIER)) {
+            if (token.getType().equals(IDENTIFIER)) {
                 identifiers.add(new Identifier(token.getName(), UNDEFINED));
             }
         }
@@ -58,15 +52,16 @@ public class SemanticAnalyzer implements SemanticAnalysis {
 
     @Override
     public void closeScope() {
-        while (!stack.pop().equals(MARK));
+        while (!stack.pop().equals(MARK)) {
+            identifiers.remove(identifiers.size() - 1);
+        }
     }
 
     @Override
     public void showResult() {
-        if(result.getResults().size() > 0) {
+        if (result.getResults().size() > 0) {
             result.getResults().forEach(System.err::println);
-        }
-        else {
+        } else {
             System.out.println("Semantic OK");
         }
     }
@@ -76,8 +71,8 @@ public class SemanticAnalyzer implements SemanticAnalysis {
     }
 
     private boolean existsInCurrentScope(String identifier) {
-        for(int i = stack.size() - 1; !stack.get(i).equals(MARK); i --) {
-            if(stack.get(i).equals(identifier)) {
+        for (int i = stack.size() - 1; !stack.get(i).equals(MARK); i--) {
+            if (stack.get(i).equals(identifier)) {
                 return true;
             }
         }
@@ -91,22 +86,45 @@ public class SemanticAnalyzer implements SemanticAnalysis {
 
     @Override
     public void checkType(Token token) {
-        // Identifier
-        // Search method returns -1 when an object is not found
-        if(token.getType().equals(IDENTIFIER)) {
-            if(stack.search(token.getName()) == -1) {
+        if (token.getType().equals(IDENTIFIER)) {
+            // Search method returns -1 when object is not found
+            if (stack.search(token.getName()) == -1) {
                 result.add(token, UNDEFINED_VARIABLE);
+            } else {
+                String type = findMostRecentIdentifierType(token.getName());
+                typeController.push(type);
             }
-            else {
-
-            }
+        } else {
+            typeController.push(token.getType());
         }
+
+        typeController.update();
     }
 
     @Override
     public void identifyType(int n, String type) {
-        for(int i = identifiers.size() - n; i < identifiers.size(); i++) {
+        for (int i = identifiers.size() - n; i < identifiers.size(); i++) {
             identifiers.get(i).setType(type);
         }
+    }
+
+    private String findMostRecentIdentifierType(String name) {
+        for (int i = identifiers.size() - 1; i >= 0; i--) {
+            if (identifiers.get(i).getName().equals(name)) {
+                return identifiers.get(i).getType();
+            }
+        }
+        return "";
+    }
+
+    @Override
+    public void endExpression() {
+        typeController.checkAssignment();
+    }
+
+    @Override
+    public void setVariable(Token token) {
+        String dataType = findMostRecentIdentifierType(token.getName());
+        typeController.setVariable(token, dataType);
     }
 }

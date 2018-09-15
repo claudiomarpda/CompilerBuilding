@@ -237,10 +237,16 @@ public class SyntacticAnalyzer {
     private void checkCommand() {
         // variable := expression
         if (typeMatches(IDENTIFIER)) {
+
+            semanticAnalysis.setVariable(token);
+
             goToNextToken();
             if (typeMatches(ATTRIBUTION)) {
                 goToNextToken();
                 checkExpression();
+
+                semanticAnalysis.endExpression();
+
             }
             // | procedure call
             else if (nameMatches("(")) {
@@ -312,6 +318,9 @@ public class SyntacticAnalyzer {
     private void checkExpression() {
         checkSimpleExpression();
         if (typeMatches(RELATIONAL_OPERATOR)) {
+
+            semanticAnalysis.checkType(token);
+
             goToNextToken();
             checkSimpleExpression();
         }
@@ -326,6 +335,9 @@ public class SyntacticAnalyzer {
 
         // | signal term
         if (nameMatches("+") || nameMatches("-")) {
+
+            semanticAnalysis.checkType(token);
+
             goToNextToken();
             checkTerm();
         }
@@ -333,6 +345,9 @@ public class SyntacticAnalyzer {
         // | term additive_op simple_exp
         // additive_op -> + | - | or
         if (typeMatches(ADDITIVE_OPERATOR) || nameMatches("or")) {
+
+            semanticAnalysis.checkType(token);
+
             goToNextToken();
             checkSimpleExpression();
         }
@@ -348,6 +363,9 @@ public class SyntacticAnalyzer {
         // | factor multiplicative_op term
         // multiplicative_op -> * | / | and
         if (typeMatches(MULTIPLICATIVE_OPERATOR) || nameMatches("and")) {
+
+            semanticAnalysis.checkType(token);
+
             goToNextToken();
             checkFactor();
             checkTerm();
@@ -360,7 +378,9 @@ public class SyntacticAnalyzer {
     private void checkFactor() {
         // id | integer | real
         if (typeMatches(IDENTIFIER) || typeMatches(INTEGER) || typeMatches(REAL)) {
+
             semanticAnalysis.checkType(token);
+
             goToNextToken();
         }
         // | (expression)
@@ -374,10 +394,16 @@ public class SyntacticAnalyzer {
         // | true
         // | false
         else if (nameMatches("true") || nameMatches("false")) {
+
+            semanticAnalysis.checkType(token);
+
             goToNextToken();
         }
         // | not factor
         else if (nameMatches("not")) {
+
+            semanticAnalysis.checkType(token);
+
             goToNextToken();
             checkFactor();
         }else if(typeMatches(REAL_3D)) {
