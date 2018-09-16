@@ -98,7 +98,7 @@ public class SyntacticAnalyzer {
 
         while (typeMatches(IDENTIFIER)) {
             identifiers++;
-            semanticAnalysis.push(token);
+            semanticAnalysis.pushToken(token);
 
             goToNextToken();
 
@@ -177,7 +177,7 @@ public class SyntacticAnalyzer {
 
         while (typeMatches(IDENTIFIER)) {
             identifiers++;
-            semanticAnalysis.push(token);
+            semanticAnalysis.pushToken(token);
 
             goToNextToken();
             if (!nameMatches(":")) throw new SyntaxException(":", token);
@@ -397,14 +397,14 @@ public class SyntacticAnalyzer {
         // | false
         else if (nameMatches("true") || nameMatches("false")) {
 
-            semanticAnalysis.checkType(token);
+            semanticAnalysis.pushValue(token);
 
             goToNextToken();
         }
         // | not factor
         else if (nameMatches("not")) {
 
-            semanticAnalysis.checkType(token);
+            semanticAnalysis.pushValue(token);
 
             goToNextToken();
             checkFactor();

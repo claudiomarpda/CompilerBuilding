@@ -5,6 +5,8 @@ import compilerbuilding.lexical.TokenType;
 
 import java.util.Stack;
 
+import static compilerbuilding.lexical.TokenType.LOGICAL_OPERATOR;
+import static compilerbuilding.lexical.TokenType.UNDEFINED;
 import static compilerbuilding.semantic.DataType.*;
 import static compilerbuilding.semantic.SemanticResult.INVALID_OPERATION;
 
@@ -25,7 +27,25 @@ public class TypeController {
     }
 
     public void update(int line) {
-        if (stack.size() >= 3) {
+        if(stack.empty()) {
+            return;
+        }
+
+        if (stack.peek().equals("not")) {
+            String t1 = stack.pop();
+
+            if (stack.size() == 2) {
+                String t2 = stack.pop();
+
+                if (!t2.equals("true") && !t2.equals("false") && !t2.equals(LOGICAL_OPERATOR)) {
+                    semanticResult.add(t1, t2, line);
+                } else {
+                    stack.push(BOOLEAN);
+                }
+            } else {
+                semanticResult.add(t1, "", line);
+            }
+        } else if (stack.size() >= 3) {
             String t1 = stack.pop();
             String operator = stack.pop();
             String t2 = stack.pop();
@@ -39,6 +59,9 @@ public class TypeController {
                     stack.push(REAL);
                 } else if (t1.equals(REAL) && t2.equals(INTEGER)) {
                     stack.push(REAL);
+                }
+                else {
+                    semanticResult.add(t1, t2, line);
                 }
             } else if (isRelationalOperation(operator)) {
                 stack.push(BOOLEAN);
@@ -70,13 +93,15 @@ public class TypeController {
             if (!rightSideDataType.equals(REAL) && !rightSideDataType.equals(INTEGER)) {
                 semanticResult.add(variable, INVALID_OPERATION);
             }
-        }
-        else if(variableDataType.equals(BOOLEAN)) {
+        } else if (variableDataType.equals(BOOLEAN)) {
             if (!rightSideDataType.equals(BOOLEAN)) {
                 semanticResult.add(variable, INVALID_OPERATION);
             }
         }
+
         stack.clear();
+        variable = null;
+        variableDataType = UNDEFINED;
     }
 
     private boolean isNumericOperation(String operator) {

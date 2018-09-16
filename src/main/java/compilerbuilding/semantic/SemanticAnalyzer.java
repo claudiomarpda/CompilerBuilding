@@ -8,6 +8,7 @@ import java.util.Stack;
 
 import static compilerbuilding.lexical.TokenType.IDENTIFIER;
 import static compilerbuilding.lexical.TokenType.UNDEFINED;
+import static compilerbuilding.semantic.DataType.BOOLEAN;
 import static compilerbuilding.semantic.SemanticResult.DEFINED_VARIABLE;
 import static compilerbuilding.semantic.SemanticResult.UNDEFINED_VARIABLE;
 
@@ -33,7 +34,7 @@ public class SemanticAnalyzer implements SemanticAnalysis {
     }
 
     @Override
-    public void push(Token token) {
+    public void pushToken(Token token) {
         if (existsInCurrentScope(token.getName())) {
             result.add(token, DEFINED_VARIABLE);
         } else {
@@ -54,7 +55,9 @@ public class SemanticAnalyzer implements SemanticAnalysis {
     @Override
     public void closeScope() {
         while (!stack.pop().equals(MARK)) {
-            identifiers.remove(identifiers.size() - 1);
+            if (identifiers.size() > 0) {
+                identifiers.remove(identifiers.size() - 1);
+            }
         }
     }
 
@@ -99,6 +102,15 @@ public class SemanticAnalyzer implements SemanticAnalysis {
             typeController.push(token.getType());
         }
 
+        typeController.update(token.getLine());
+    }
+
+    public void pushValue(Token token) {
+        if (token.getName().equals("true") || token.getName().equals("false")) {
+            typeController.push(BOOLEAN);
+        } else if (token.getName().equals("not")) {
+            typeController.push(token.getName());
+        }
         typeController.update(token.getLine());
     }
 

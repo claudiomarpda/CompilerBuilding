@@ -21,13 +21,13 @@ public class SemanticAnalyzerTest {
     @Test
     public void closeScopeShouldSucceed() {
         semanticAnalysis.openScope();
-        semanticAnalysis.push(new Token("a", "Undefined", 0));
-        semanticAnalysis.push(new Token("b", "Undefined", 0));
-        semanticAnalysis.push(new Token("c", "Undefined", 0));
+        semanticAnalysis.pushToken(new Token("a", "Undefined", 0));
+        semanticAnalysis.pushToken(new Token("b", "Undefined", 0));
+        semanticAnalysis.pushToken(new Token("c", "Undefined", 0));
         semanticAnalysis.openScope();
-        semanticAnalysis.push(new Token("d", "Undefined", 0));
-        semanticAnalysis.push(new Token("e", "Undefined", 0));
-        semanticAnalysis.push(new Token("f", "Undefined", 0));
+        semanticAnalysis.pushToken(new Token("d", "Undefined", 0));
+        semanticAnalysis.pushToken(new Token("e", "Undefined", 0));
+        semanticAnalysis.pushToken(new Token("f", "Undefined", 0));
 
         semanticAnalysis.closeScope();
         boolean isEmpty = ((SemanticAnalyzer) semanticAnalysis).getStack().isEmpty();
@@ -41,13 +41,13 @@ public class SemanticAnalyzerTest {
     @Test
     public void existsInCurrentScopeShouldFail() {
         semanticAnalysis.openScope();
-        semanticAnalysis.push(new Token("a", "Undefined", 0));
-        semanticAnalysis.push(new Token("b", "Undefined", 0));
+        semanticAnalysis.pushToken(new Token("a", "Undefined", 0));
+        semanticAnalysis.pushToken(new Token("b", "Undefined", 0));
         semanticAnalysis.openScope();
-        semanticAnalysis.push(new Token("a", "Undefined", 0));
-        semanticAnalysis.push(new Token("b", "Undefined", 0));
+        semanticAnalysis.pushToken(new Token("a", "Undefined", 0));
+        semanticAnalysis.pushToken(new Token("b", "Undefined", 0));
         System.out.println("Test hasn't failed so far. Good.");
-        semanticAnalysis.push(new Token("b", "Undefined", 0));
+        semanticAnalysis.pushToken(new Token("b", "Undefined", 0));
         boolean hasError = semanticAnalysis.hasError();
         assertTrue(hasError);
     }

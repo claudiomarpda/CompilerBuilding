@@ -6,7 +6,7 @@ public interface SemanticAnalysis {
 
     void startProgram();
 
-    void push(Token token);
+    void pushToken(Token token);
 
     void openScope();
 
@@ -23,4 +23,6 @@ public interface SemanticAnalysis {
     void endExpression();
 
     void setVariable(Token token);
+
+    void pushValue(Token token);
 }

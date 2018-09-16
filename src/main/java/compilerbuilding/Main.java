@@ -16,12 +16,9 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        for (int i = 4; i <= 4; i++) {
-            if (i == 3) continue;
+        List<Token> tokens = runLexical(9);
+        runSyntactic(9, tokens);
 
-            List<Token> tokens = runLexical(i);
-            runSyntactic(i, tokens);
-        }
     }
 
     private static List<Token> runLexical(int index) throws IOException {
