@@ -6,7 +6,7 @@ import compilerbuilding.lexical.Token;
 import compilerbuilding.semantic.SemanticAnalysis;
 import compilerbuilding.semantic.SemanticAnalyzer;
 import compilerbuilding.syntactic.SyntacticAnalyzer;
-import compilerbuilding.syntactic.exception.SyntaxException;
+import compilerbuilding.syntactic.SyntaxException;
 import compilerbuilding.util.FileUtil;
 
 import java.io.IOException;
