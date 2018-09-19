@@ -95,10 +95,18 @@ public class SemanticAnalyzer implements SemanticAnalysis {
             if (stack.search(token.getName()) == -1) {
                 result.add(token, UNDEFINED_VARIABLE);
             } else {
+                // Looks for the identifier's type in the current scope until the most outer scope
                 String type = findMostRecentIdentifierType(token.getName());
-                typeController.push(type);
+                if(type == null) {
+                    result.add(token, UNDEFINED_VARIABLE);
+                }
+                else {
+                    typeController.push(type);
+                }
             }
-        } else {
+        }
+        // It is a literal
+        else {
             typeController.push(token.getType());
         }
 
@@ -114,6 +122,12 @@ public class SemanticAnalyzer implements SemanticAnalysis {
         typeController.update(token.getLine());
     }
 
+    /**
+     * Set the type of a list of variable
+     *
+     * @param n:    number of variables
+     * @param type: the same type for all
+     */
     @Override
     public void identifyType(int n, String type) {
         for (int i = identifiers.size() - n; i < identifiers.size(); i++) {
@@ -121,13 +135,19 @@ public class SemanticAnalyzer implements SemanticAnalysis {
         }
     }
 
+    /**
+     * Find the most recent identifier by name
+     *
+     * @param name: the name of the identifier
+     * @return the type of the identifier or null
+     */
     private String findMostRecentIdentifierType(String name) {
         for (int i = identifiers.size() - 1; i >= 0; i--) {
             if (identifiers.get(i).getName().equals(name)) {
                 return identifiers.get(i).getType();
             }
         }
-        return "";
+        return null;
     }
 
     @Override
@@ -135,6 +155,10 @@ public class SemanticAnalyzer implements SemanticAnalysis {
         typeController.checkAssignment();
     }
 
+    /**
+     * Means the start of an attribution
+     * @param token of the variable
+     */
     @Override
     public void setVariable(Token token) {
         String dataType = findMostRecentIdentifierType(token.getName());

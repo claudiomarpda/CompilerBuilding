@@ -60,6 +60,7 @@ public class TypeController {
                 } else if (t1.equals(REAL) && t2.equals(INTEGER)) {
                     stack.push(REAL);
                 }
+                // Invalid operation between types
                 else {
                     semanticResult.add(t1, t2, line);
                 }
@@ -99,6 +100,7 @@ public class TypeController {
             }
         }
 
+        // Reset left side variable
         stack.clear();
         variable = null;
         variableDataType = UNDEFINED;
