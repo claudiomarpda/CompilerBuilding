@@ -9,6 +9,7 @@ import java.util.Stack;
 import static compilerbuilding.lexical.TokenType.IDENTIFIER;
 import static compilerbuilding.lexical.TokenType.UNDEFINED;
 import static compilerbuilding.semantic.DataType.BOOLEAN;
+import static compilerbuilding.semantic.SemanticResult.DEFINED_SUBPROGRAM;
 import static compilerbuilding.semantic.SemanticResult.DEFINED_VARIABLE;
 import static compilerbuilding.semantic.SemanticResult.UNDEFINED_VARIABLE;
 
@@ -19,12 +20,16 @@ public class SemanticAnalyzer implements SemanticAnalysis {
     private Stack<String> stack;
     private SemanticResult result;
     private List<Identifier> identifiers;
+    private List<Identifier> variableIdentifiers;
+    private List<Identifier> subprogramIdentifiers;
     private TypeController typeController;
 
     public SemanticAnalyzer() {
         stack = new Stack<>();
         result = new SemanticResult();
         identifiers = new ArrayList<>();
+        variableIdentifiers = new ArrayList<>();
+        subprogramIdentifiers = new ArrayList<>();
         typeController = new TypeController(result);
     }
 
@@ -163,5 +168,15 @@ public class SemanticAnalyzer implements SemanticAnalysis {
     public void setVariable(Token token) {
         String dataType = findMostRecentIdentifierType(token.getName());
         typeController.setVariable(token, dataType);
+    }
+
+    @Override
+    public void pushSubprogram(Token token) {
+        // If subprogram identifier exists
+        if (subprogramIdentifiers.stream().anyMatch(c -> c.getName().equals(token.getName()))) {
+            result.add(token, DEFINED_SUBPROGRAM);
+        } else {
+            subprogramIdentifiers.add(new Identifier(token.getName(), UNDEFINED, token.getLine()));
+        }
     }
 }

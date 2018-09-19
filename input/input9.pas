@@ -1,14 +1,22 @@
 program example;
 
 var
-a, b: real;
+a, b: integer;
 c : boolean;
-d : integer;
+d, calculate : real;
+
+procedure calculate (a: integer; b: integer);
+begin
+    d := a + b;
+end;
+
+procedure calculate2 (a: integer; b: integer);
+begin
+    d := a + b;
+end;
 
 begin
-    a := 2 + 2;
-    b := a + 2;
-    b := a + a;
-    c := b > a;
-    d := 10 + c;
+
+
+
 end.

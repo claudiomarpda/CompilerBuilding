@@ -25,4 +25,6 @@ public interface SemanticAnalysis {
     void setVariable(Token token);
 
     void pushValue(Token token);
+
+    void pushSubprogram(Token token);
 }

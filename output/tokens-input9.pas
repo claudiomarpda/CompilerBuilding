@@ -8,46 +8,60 @@
                         ,                 Delimiter                         4
                         b                Identifier                         4
                         :                 Delimiter                         4
-                     real                   Keyword                         4
+                  integer                   Keyword                         4
                         ;                 Delimiter                         4
                         c                Identifier                         5
                         :                 Delimiter                         5
                   boolean                   Keyword                         5
                         ;                 Delimiter                         5
                         d                Identifier                         6
+                        ,                 Delimiter                         6
+                calculate                Identifier                         6
                         :                 Delimiter                         6
-                  integer                   Keyword                         6
+                     real                   Keyword                         6
                         ;                 Delimiter                         6
-                    begin                   Keyword                         8
-                        a                Identifier                         9
-                       :=               Attribution                         9
-                        2                   Integer                         9
-                        +         Additive Operator                         9
-                        2                   Integer                         9
-                        ;                 Delimiter                         9
-                        b                Identifier                        10
+                procedure                   Keyword                         8
+                calculate                Identifier                         8
+                        (                 Delimiter                         8
+                        a                Identifier                         8
+                        :                 Delimiter                         8
+                  integer                   Keyword                         8
+                        ;                 Delimiter                         8
+                        b                Identifier                         8
+                        :                 Delimiter                         8
+                  integer                   Keyword                         8
+                        )                 Delimiter                         8
+                        ;                 Delimiter                         8
+                    begin                   Keyword                         9
+                        d                Identifier                        10
                        :=               Attribution                        10
                         a                Identifier                        10
                         +         Additive Operator                        10
-                        2                   Integer                        10
+                        b                Identifier                        10
                         ;                 Delimiter                        10
-                        b                Identifier                        11
-                       :=               Attribution                        11
-                        a                Identifier                        11
-                        +         Additive Operator                        11
-                        a                Identifier                        11
+                      end                   Keyword                        11
                         ;                 Delimiter                        11
-                        c                Identifier                        12
-                       :=               Attribution                        12
-                        b                Identifier                        12
-                        >       Relational Operator                        12
-                        a                Identifier                        12
-                        ;                 Delimiter                        12
-                        d                Identifier                        13
-                       :=               Attribution                        13
-                       10                   Integer                        13
-                        +         Additive Operator                        13
-                        c                Identifier                        13
+                procedure                   Keyword                        13
+               calculate2                Identifier                        13
+                        (                 Delimiter                        13
+                        a                Identifier                        13
+                        :                 Delimiter                        13
+                  integer                   Keyword                        13
                         ;                 Delimiter                        13
-                      end                   Keyword                        14
-                        .                 Delimiter                        14
+                        b                Identifier                        13
+                        :                 Delimiter                        13
+                  integer                   Keyword                        13
+                        )                 Delimiter                        13
+                        ;                 Delimiter                        13
+                    begin                   Keyword                        14
+                        d                Identifier                        15
+                       :=               Attribution                        15
+                        a                Identifier                        15
+                        +         Additive Operator                        15
+                        b                Identifier                        15
+                        ;                 Delimiter                        15
+                      end                   Keyword                        16
+                        ;                 Delimiter                        16
+                    begin                   Keyword                        18
+                      end                   Keyword                        22
+                        .                 Delimiter                        22

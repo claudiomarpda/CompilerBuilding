@@ -166,6 +166,8 @@ public class SyntacticAnalyzer {
     private void checkParameters() {
         if (!typeMatches(IDENTIFIER)) throw new SyntaxException(IDENTIFIER, token);
 
+        semanticAnalysis.pushSubprogram(token);
+
         goToNextToken();
         if (!nameMatches("(")) throw new SyntaxException("(", token);
 

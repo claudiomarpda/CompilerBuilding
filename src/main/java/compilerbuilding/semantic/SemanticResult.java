@@ -8,7 +8,9 @@ import java.util.List;
 public class SemanticResult {
 
     public static final String DEFINED_VARIABLE = "Variable already defined: ";
+    public static final String DEFINED_SUBPROGRAM = "Subprogram already defined: ";
     public static final String UNDEFINED_VARIABLE = "Variable not defined: ";
+    public static final String UNDEFINED_SUBPROGRAM = "Subprogram not defined: ";
     public static final String INVALID_OPERATION = "Invalid operation: ";
 
     private List<String> results;
