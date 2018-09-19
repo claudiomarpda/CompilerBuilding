@@ -3,7 +3,6 @@ package compilerbuilding.syntactic;
 import compilerbuilding.lexical.Token;
 import compilerbuilding.lexical.TokenType;
 import compilerbuilding.semantic.SemanticAnalysis;
-import compilerbuilding.syntactic.exception.SyntaxException;
 
 import java.util.List;
 
